@@ -78,7 +78,7 @@ int main(void)
     T3DViewport viewport = t3d_viewport_create_buffered(FB_COUNT);
     T3DMat4FP *islandMat = malloc_uncached(sizeof(T3DMat4FP));
     t3d_mat4fp_from_srt_euler(islandMat,
-        (float[3]){ 1, 1, 1 }, (float[3]){ 0, 0, 0 }, (float[3]){ 0, 0, 0 });
+        (float[3]){ 0.032f, 0.032f, 0.032f }, (float[3]){ 0, 0, 0 }, (float[3]){ 0, 0, 0 });
 
     T3DModel *mdlIsland = t3d_model_load("rom:/island.t3dm");
     T3DModel *mdlPlayer = t3d_model_load("rom:/player_anim.t3dm");
@@ -195,7 +195,7 @@ int main(void)
             look.v[k] = ng_lerp(look.v[k], lookWant.v[k], lag);
         }
 
-        t3d_viewport_set_projection(&viewport, T3D_DEG_TO_RAD(58.f), 1.f, 90.f);
+        t3d_viewport_set_projection(&viewport, T3D_DEG_TO_RAD(58.f), 1.f, 200.f);
         t3d_viewport_look_at(&viewport, &eye, &look, &(fm_vec3_t){{ 0, 1, 0 }});
 
         /* Build matrices from entities */
@@ -206,13 +206,13 @@ int main(void)
             }
             if (e->type == ENT_PLAYER) {
                 t3d_mat4fp_from_srt_euler(&playerMats[frame],
-                    (float[3]){ 0.35f, 0.35f, 0.35f },
+                    (float[3]){ 0.02f, 0.02f, 0.02f },
                     (float[3]){ 0, e->yaw, 0 },
                     (float[3]){ e->pos.v[0], e->pos.v[1], e->pos.v[2] });
             } else if (e->type == ENT_SHARD) {
                 float bob = fm_sinf(t * 3.f + i) * 0.12f;
                 t3d_mat4fp_from_srt_euler(e->mat,
-                    (float[3]){ 1.2f, 1.2f, 1.2f },
+                    (float[3]){ 0.02f, 0.02f, 0.02f },
                     (float[3]){ 0, t + i, 0 },
                     (float[3]){ e->pos.v[0], e->pos.v[1] + bob, e->pos.v[2] });
             } else if (e->type == ENT_PLATFORM) {
@@ -243,9 +243,10 @@ int main(void)
                 continue;
             }
             if (e->type == ENT_PLAYER) {
-                t3d_matrix_set(&playerMats[frame], true);
                 t3d_skeleton_use(&skel);
+                t3d_matrix_push(&playerMats[frame]);
                 t3d_model_draw_skinned(mdlPlayer, &skel);
+                t3d_matrix_pop(1);
             } else if (e->type == ENT_SHARD) {
                 t3d_matrix_set(e->mat, true);
                 if (mdlShard) {

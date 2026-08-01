@@ -159,11 +159,11 @@ int main(void)
 
         float scale = 1.0f;
         if (prop == PROP_ISLAND) {
-            scale = 0.8f;
+            scale = 0.032f; /* island t3dm units */
         } else if (prop == PROP_PLAYER_ANIM) {
-            scale = 0.35f;
+            scale = 0.02f; /* player_anim / snake vs course island */
         } else if (prop == PROP_STARSHARD) {
-            scale = 1.5f;
+            scale = 0.025f; /* starshard t3dm units */
         }
 
         t3d_mat4fp_from_srt_euler(&modelMatFP[frameIdx],

@@ -53,9 +53,12 @@ int main(void)
      * audio_init(output_hz, num_buffers)
      * mixer_init(max_channels)
      * wav64_init_compression(level) must match how files were converted
-     *   (we use --wav-compress 3 in the Makefile rule).
+     *   (we use --wav-compress 3 = Opus in the Makefile rule).
+     *
+     * Opus wav64 is stored at 48 kHz. audio_init must be >= that rate or
+     * wav64_play asserts: "frequency 48000 exceeds configured limit …".
      */
-    audio_init(44100, 4);
+    audio_init(48000, 4);
     mixer_init(16);
     wav64_init_compression(3);
 

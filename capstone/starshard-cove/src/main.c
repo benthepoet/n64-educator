@@ -184,9 +184,10 @@ int main(void)
     /*
      * audio_init(freq, num_buffers): set up the audio subsystem.
      * mixer_init(channels): how many simultaneous voices.
-     * wav64_init_compression(3): match how we converted WAVs with --wav-compress 3.
+     * wav64_init_compression(3): Opus — match Makefile --wav-compress 3.
+     * Use 48000: Opus wav64 samples are 48 kHz (not 44100).
      */
-    audio_init(44100, 4);
+    audio_init(48000, 4);
     mixer_init(16);
     wav64_init_compression(3);
 
@@ -224,7 +225,7 @@ int main(void)
 
     /* Island never moves — build its matrix once (scale 1, no rotation, origin). */
     t3d_mat4fp_from_srt_euler(islandMat,
-        (float[3]){ 1, 1, 1 },   /* scale XYZ */
+        (float[3]){ 0.032f, 0.032f, 0.032f }, /* scale XYZ — island t3dm ~±384 */
         (float[3]){ 0, 0, 0 },   /* rotation XYZ (radians) */
         (float[3]){ 0, 0, 0 });  /* translation XYZ */
 
@@ -500,12 +501,12 @@ int main(void)
          * Projection = lens (FOV 58°, near 1, far 100).
          * look_at builds the view matrix from eye, target, and world-up.
          */
-        t3d_viewport_set_projection(&viewport, T3D_DEG_TO_RAD(58.f), 1.f, 100.f);
+        t3d_viewport_set_projection(&viewport, T3D_DEG_TO_RAD(58.f), 1.f, 200.f);
         t3d_viewport_look_at(&viewport, &eye, &look, &(fm_vec3_t){{ 0, 1, 0 }});
 
         /* Player model matrix: small scale, face yaw, sit at pos. */
         t3d_mat4fp_from_srt_euler(&playerMat[frame],
-            (float[3]){ 0.35f, 0.35f, 0.35f },
+            (float[3]){ 0.02f, 0.02f, 0.02f },
             (float[3]){ 0, yaw, 0 },
             (float[3]){ pos.v[0], pos.v[1], pos.v[2] });
 
@@ -518,7 +519,7 @@ int main(void)
             float spin = t * 1.5f + i;
             float sc = 1.15f + 0.08f * fm_sinf(t * 5.f + i);
             t3d_mat4fp_from_srt_euler(shards[i].mat,
-                (float[3]){ sc, sc, sc },
+                (float[3]){ sc * 0.018f, sc * 0.018f, sc * 0.018f },
                 (float[3]){ 0.2f, spin, 0.1f },
                 (float[3]){ shards[i].pos.v[0], shards[i].pos.v[1] + bob, shards[i].pos.v[2] });
         }
@@ -549,19 +550,21 @@ int main(void)
         t3d_light_set_count(1);
 
         /* Ground first, then props, then player (order is less critical with Z). */
-        t3d_matrix_set(islandMat, true);
+        t3d_matrix_push(islandMat);
         if (island) {
             t3d_model_draw(island);
         }
+        t3d_matrix_pop(1);
 
         for (int i = 0; i < SHARD_N; i++) {
             if (!shards[i].alive) {
                 continue;
             }
-            t3d_matrix_set(shards[i].mat, true);
+            t3d_matrix_push(shards[i].mat);
             if (shardM) {
                 t3d_model_draw(shardM);
             }
+            t3d_matrix_pop(1);
         }
 
         /* Title screen: show empty island only (no player). */

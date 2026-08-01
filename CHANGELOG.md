@@ -34,6 +34,23 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.1.4] — 2026-08-01
+
+### Fixed
+
+- **Audio:** `audio_init(48000)` everywhere Opus `wav64` is used (was 44100 →
+  assert `frequency 48000 exceeds configured limit` on SFX play)
+- **Course island scale:** `island.t3dm` verts are ~±384; world scale **0.032**
+  so gameplay cameras (~12u) can see the mesh (L26, L28–L34, Toy Cove, capstone)
+- **Snake / player_anim scale** on island lessons: **0.02** (~1.6u tall), not
+  Tiny3D map scale 0.125
+- **Starshard scale** ~**0.02** so collectibles match the scaled island
+- Skinned draw: `t3d_skeleton_use` + matrix push/pop; shard draws use push/pop
+- L32 docs: sample-rate vs `audio_init` warning
+- Sync `player_anim.t3dm` (with `rom:/` sdata paths) across anim lessons
+
+---
+
 ## [1.1.3] — 2026-08-01
 
 ### Changed
@@ -137,7 +154,8 @@ First public open-source release of the full curriculum.
 - Default git branch: **`master`**
 - Requires libdragon **preview** + Tiny3D (see pinned versions doc)
 
-[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.3...HEAD
+[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.4...HEAD
+[1.1.4]: https://github.com/benthepoet/n64-educator/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/benthepoet/n64-educator/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/benthepoet/n64-educator/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/benthepoet/n64-educator/compare/v1.1.0...v1.1.1

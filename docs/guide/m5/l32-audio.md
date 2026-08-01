@@ -28,9 +28,9 @@ make -C lessons/l32-audio
 ## Core code shape
 
 ```c
-audio_init(44100, 4);
+audio_init(48000, 4);   /* must be >= wav64 sample rate (Opus → 48 kHz) */
 mixer_init(16);
-wav64_init_compression(3);
+wav64_init_compression(3);  /* match Makefile --wav-compress 3 */
 
 wav64_t *sfx = wav64_load("rom:/collect.wav64", NULL);
 xm64player_t music;
@@ -40,6 +40,15 @@ xm64player_set_loop(&music, true);
 // each frame, after input/render:
 mixer_try_play();
 ```
+
+::: warning Sample rate vs audio_init
+Our pipeline converts WAVs with **Opus** (`--wav-compress 3`), which produces
+**48 kHz** `wav64` files. If you call `audio_init(44100, …)`, playing SFX asserts:
+
+`frequency 48000 exceeds configured limit 44095 on channel N`
+
+Use **`audio_init(48000, 4)`** (or resample assets to match a lower output rate).
+:::
 
 ## Volume etiquette
 
