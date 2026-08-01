@@ -24,6 +24,13 @@ Course `island` is a subdivided grid with a soft dome and painted path.
 
 Optional empties or simple cubes named `COL_*` for later gameplay — Module 4 can read a table even if auto-export isn’t ready. For now, notes in a text file are fine.
 
+## Lesson code
+
+Module 3 is Blender-first — there is no per-lesson C ROM for L17–L25.
+
+Runnable code that loads the course meshes lives in the
+[Module 3 asset lab checkpoint](./checkpoint) (`lessons/m3-asset-lab/`).
+
 ## Next
 
 [L24 — Rigging](./l24-rigging).

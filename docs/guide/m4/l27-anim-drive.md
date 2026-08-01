@@ -30,6 +30,22 @@ Reference character walks when you push the stick; idles when you stop.
 - Forgetting `t3d_skeleton_update` after blend  
 - Zero `dt` if you pause wrong  
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l27-anim-drive/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l27-anim-drive/Makefile) · [`lessons/l27-anim-drive/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l27-anim-drive/src/main.c)
+
+::: details `lessons/l27-anim-drive/Makefile`
+<<< ../../../lessons/l27-anim-drive/Makefile{make}
+:::
+
+::: details `lessons/l27-anim-drive/src/main.c`
+<<< ../../../lessons/l27-anim-drive/src/main.c{c}
+:::
+
 ## Next
 
 [L28 — Follow cam](./l28-follow-cam).

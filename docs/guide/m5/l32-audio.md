@@ -50,6 +50,22 @@ Keep music under SFX (~0.5–0.6). Avoid stacking five loud one-shots on the sam
 1. Map collect SFX to a different button.  
 2. Lower music volume with `xm64player_set_vol`.  
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l32-audio/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l32-audio/Makefile) · [`lessons/l32-audio/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l32-audio/src/main.c)
+
+::: details `lessons/l32-audio/Makefile`
+<<< ../../../lessons/l32-audio/Makefile{make}
+:::
+
+::: details `lessons/l32-audio/src/main.c`
+<<< ../../../lessons/l32-audio/src/main.c{c}
+:::
+
 ## Next
 
 [L33 — HUD](./l33-hud).

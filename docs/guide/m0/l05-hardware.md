@@ -100,6 +100,10 @@ Before Module 1, complete the [Module 0 checkpoint](/guide/m0/checkpoint): count
 - Frame time is real and vsync-paced  
 - How your libdragon calls map onto chips  
 
+## No ROM for this lesson
+
+L05 is a hardware overview (no `lessons/l05-*` project). Continue from the [Module 0 checkpoint](./checkpoint) once L01–L04 build.
+
 ## Next
 
 Module 1 — [3D Literacy](/guide/m1/overview) (vectors, matrices, cameras, meshes, vertex color) with interactive ROMs and `ng_math` helpers — still no Tiny3D yet.

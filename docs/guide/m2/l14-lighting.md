@@ -75,6 +75,22 @@ White vertices show lighting clearly. Dark vertex paint (L16) multiplies on top 
 2. Change `colorDir` to pure blue — moonlit vibe.  
 3. Predict: top face vs front face, which is brighter for light from above?
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l14-lighting/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l14-lighting/Makefile) · [`lessons/l14-lighting/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l14-lighting/src/main.c)
+
+::: details `lessons/l14-lighting/Makefile`
+<<< ../../../lessons/l14-lighting/Makefile{make}
+:::
+
+::: details `lessons/l14-lighting/src/main.c`
+<<< ../../../lessons/l14-lighting/src/main.c{c}
+:::
+
 ## What you learned
 
 - Ambient vs directional in Tiny3D  

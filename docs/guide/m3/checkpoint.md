@@ -39,6 +39,22 @@ make -C lessons/m3-asset-lab
 
 You are not afraid of Blender’s viewport, you can export *something* into the lab, and you understand why Fast64/custom properties matter for Tiny3D.
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/m3-asset-lab/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/m3-asset-lab/Makefile) · [`lessons/m3-asset-lab/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/m3-asset-lab/src/main.c)
+
+::: details `lessons/m3-asset-lab/Makefile`
+<<< ../../../lessons/m3-asset-lab/Makefile{make}
+:::
+
+::: details `lessons/m3-asset-lab/src/main.c`
+<<< ../../../lessons/m3-asset-lab/src/main.c{c}
+:::
+
 ## Next
 
 [Module 4 — Gameplay systems](/guide/m4/overview): move, drive anims, follow cam, collide, entities, state machine → [Toy Cove](/guide/m4/toy-cove).

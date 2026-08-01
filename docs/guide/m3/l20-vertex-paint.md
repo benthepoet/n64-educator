@@ -28,6 +28,13 @@ If your export lacks colors:
 
 Paint a darker strip across a ground plane as a path. Rebuild via inject + `gltf_to_t3d` or Fast64 export. View in [Asset lab](./checkpoint).
 
+## Lesson code
+
+Module 3 is Blender-first — there is no per-lesson C ROM for L17–L25.
+
+Runnable code that loads the course meshes lives in the
+[Module 3 asset lab checkpoint](./checkpoint) (`lessons/m3-asset-lab/`).
+
 ## Next
 
 [L21 — Fast64 & export](./l21-fast64-export).

@@ -198,6 +198,22 @@ If the file feels long, ignore drawing helpers (`draw_line`) and only read the b
 2. Change wind’s numbers in source; rebuild; feel the new pull.  
 3. (Stretch) On paper: point A=(1,1), B=(4,5). What vector goes from A to B? What’s its length?
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l06-vectors/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l06-vectors/Makefile) · [`lessons/l06-vectors/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l06-vectors/src/main.c)
+
+::: details `lessons/l06-vectors/Makefile`
+<<< ../../../lessons/l06-vectors/Makefile{make}
+:::
+
+::: details `lessons/l06-vectors/src/main.c`
+<<< ../../../lessons/l06-vectors/src/main.c{c}
+:::
+
 ## What you learned
 
 - Point = where; vector = how much / which way  

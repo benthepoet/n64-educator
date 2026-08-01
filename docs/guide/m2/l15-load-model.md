@@ -93,6 +93,22 @@ Always `rom:/...` after DFS init — same rule as L04.
 2. Change camera Z; reframe the subject.  
 3. (Stretch) Copy a second glb later from your own export (Module 3).
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l15-load-model/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l15-load-model/Makefile) · [`lessons/l15-load-model/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l15-load-model/src/main.c)
+
+::: details `lessons/l15-load-model/Makefile`
+<<< ../../../lessons/l15-load-model/Makefile{make}
+:::
+
+::: details `lessons/l15-load-model/src/main.c`
+<<< ../../../lessons/l15-load-model/src/main.c{c}
+:::
+
 ## What you learned
 
 - Offline model conversion  

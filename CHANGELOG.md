@@ -16,22 +16,47 @@ and this project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.ht
 Toolchain pins (libdragon / Tiny3D commits) are recorded in `docs/reference/versions.md`.
 Bump the course version when pins change in a way that affects learners.
 
+**Every commit that lands on `master` (and is pushed) must bump `VERSION` /
+`package.json` and move the change into a dated `CHANGELOG.md` section.** Do not
+leave user-visible work only under `[Unreleased]` on `master`.
+
 ---
 
 ## [Unreleased]
 
 ### Added
 
-- GitHub Pages hosting for the VitePress curriculum (`https://benthepoet.github.io/n64-educator/`)
+### Changed
+
+### Fixed
+
+### Removed
+
+---
+
+## [1.1.0] — 2026-08-01
+
+### Added
+
+- **In-browser lesson source:** VitePress imports real `Makefile` / `src/main.c`
+  (and shared `common/` library files) into the curriculum site via `<<<` snippets
+  so docs stay in sync with the repo
+- Full source sections on all code lessons (L01–L04, L06–L16, L26–L34), Module 0 /
+  Module 3 checkpoints, Toy Cove, and Starshard Cove
+- Shared library source on [How this course works](docs/guide/how-it-works.md)
+  (`common/lesson.mk`, `ng_math`, `ng_game`)
+- Pointers from Blender-only Module 3 lessons (L17–L25), L05 hardware, and L36
+  shipping to the runnable projects that hold the code
+- GitHub Pages hosting for the VitePress curriculum
+  (`https://benthepoet.github.io/n64-educator/`)
 - Docs deploy workflow (build + `actions/deploy-pages`)
 
 ### Changed
 
 - VitePress `base` is `/n64-educator/` in CI (local dev still uses `/`)
-
-### Fixed
-
-### Removed
+- Docs Vite config allows reading lesson sources outside `docs/` for snippets
+- Maintainer rule: ship to `master` with matching `VERSION`, `package.json`, and
+  dated changelog entry (no silent docs-only pushes)
 
 ---
 
@@ -61,9 +86,6 @@ First public open-source release of the full curriculum.
 - Default git branch: **`master`**
 - Requires libdragon **preview** + Tiny3D (see pinned versions doc)
 
-<!--
-After the repo is published, optional compare links:
-
-[Unreleased]: https://github.com/<org>/<repo>/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/<org>/<repo>/releases/tag/v1.0.0
--->
+[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/benthepoet/n64-educator/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/benthepoet/n64-educator/releases/tag/v1.0.0

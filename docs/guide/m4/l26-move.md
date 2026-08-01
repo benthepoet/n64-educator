@@ -34,6 +34,22 @@ position += world_dir * speed * dt
 2. Print yaw in degrees.  
 3. (Stretch) Press C-left/right to rotate `camYaw` (L28 does better follow).
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l26-move/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l26-move/Makefile) · [`lessons/l26-move/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l26-move/src/main.c)
+
+::: details `lessons/l26-move/Makefile`
+<<< ../../../lessons/l26-move/Makefile{make}
+:::
+
+::: details `lessons/l26-move/src/main.c`
+<<< ../../../lessons/l26-move/src/main.c{c}
+:::
+
 ## Next
 
 [L27 — Anim drive](./l27-anim-drive).

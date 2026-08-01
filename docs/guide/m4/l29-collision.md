@@ -22,6 +22,22 @@ make -C lessons/l29-collision
 
 Three bobbing starshards; walk into them to collect.
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l29-collision/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l29-collision/Makefile) · [`lessons/l29-collision/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l29-collision/src/main.c)
+
+::: details `lessons/l29-collision/Makefile`
+<<< ../../../lessons/l29-collision/Makefile{make}
+:::
+
+::: details `lessons/l29-collision/src/main.c`
+<<< ../../../lessons/l29-collision/src/main.c{c}
+:::
+
 ## Next
 
 [L30 — Entities](./l30-entities).

@@ -94,6 +94,23 @@ make -C lessons/l04-dfs
 | Invisible sprite | Wrong path; or fully transparent PNG; enable alphacompare carefully |
 | Build skips sprite | Put PNG under `assets/` with `.png` extension |
 
+
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l04-dfs/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l04-dfs/Makefile) · [`lessons/l04-dfs/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l04-dfs/src/main.c)
+
+::: details `lessons/l04-dfs/Makefile`
+<<< ../../../lessons/l04-dfs/Makefile{make}
+:::
+
+::: details `lessons/l04-dfs/src/main.c`
+<<< ../../../lessons/l04-dfs/src/main.c{c}
+:::
+
 ## What you learned
 
 - Assets are **build-time** converted and **ROM-embedded**

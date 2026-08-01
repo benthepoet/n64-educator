@@ -22,6 +22,22 @@ make -C lessons/l28-follow-cam
 
 Camera trails; movement stays camera-relative including orbit.
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l28-follow-cam/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l28-follow-cam/Makefile) · [`lessons/l28-follow-cam/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l28-follow-cam/src/main.c)
+
+::: details `lessons/l28-follow-cam/Makefile`
+<<< ../../../lessons/l28-follow-cam/Makefile{make}
+:::
+
+::: details `lessons/l28-follow-cam/src/main.c`
+<<< ../../../lessons/l28-follow-cam/src/main.c{c}
+:::
+
 ## Next
 
 [L29 — Collision](./l29-collision).

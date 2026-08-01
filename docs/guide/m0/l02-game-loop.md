@@ -129,6 +129,22 @@ Open in Ares (Homebrew mode). Confirm the number climbs and the background breat
 | Flicker / tearing worries | Double-buffering helps; focus on structure for now |
 | Color looks wrong | `color_t` fields are `r,g,b,a` 0–255 |
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l02-game-loop/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l02-game-loop/Makefile) · [`lessons/l02-game-loop/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l02-game-loop/src/main.c)
+
+::: details `lessons/l02-game-loop/Makefile`
+<<< ../../../lessons/l02-game-loop/Makefile{make}
+:::
+
+::: details `lessons/l02-game-loop/src/main.c`
+<<< ../../../lessons/l02-game-loop/src/main.c{c}
+:::
+
 ## What you learned
 
 - Update vs render vs present

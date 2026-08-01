@@ -74,6 +74,22 @@ Units should match your world scale (course: ~1 unit ≈ 1 meter-ish).
 2. Dolly in until `near` almost clips; then ease out.  
 3. (Stretch) Make target `(0, 4, 0)` so you orbit the red marker.
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l13-orbit-camera/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l13-orbit-camera/Makefile) · [`lessons/l13-orbit-camera/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l13-orbit-camera/src/main.c)
+
+::: details `lessons/l13-orbit-camera/Makefile`
+<<< ../../../lessons/l13-orbit-camera/Makefile{make}
+:::
+
+::: details `lessons/l13-orbit-camera/src/main.c`
+<<< ../../../lessons/l13-orbit-camera/src/main.c{c}
+:::
+
 ## What you learned
 
 - Spherical orbit camera  

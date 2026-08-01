@@ -144,6 +144,22 @@ Same concepts; different pipeline maturity.
 3. On paper, square corners 0–3; write indices for two triangles.  
 4. Press **A** a few times — predict what “flip winding” did to the vertex list.
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l09-meshes/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l09-meshes/Makefile) · [`lessons/l09-meshes/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l09-meshes/src/main.c)
+
+::: details `lessons/l09-meshes/Makefile`
+<<< ../../../lessons/l09-meshes/Makefile{make}
+:::
+
+::: details `lessons/l09-meshes/src/main.c`
+<<< ../../../lessons/l09-meshes/src/main.c{c}
+:::
+
 ## What you learned
 
 - Mesh = triangles built from vertices  

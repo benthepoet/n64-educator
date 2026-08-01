@@ -83,6 +83,22 @@ The sample **records** the draw once (`rspq_block_begin/end`) and replays it. Th
 2. Slow `rotAngle += …`.  
 3. Move `camPos` farther on Z — object looks smaller (perspective!).  
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l11-t3d-quad/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l11-t3d-quad/Makefile) · [`lessons/l11-t3d-quad/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l11-t3d-quad/src/main.c)
+
+::: details `lessons/l11-t3d-quad/Makefile`
+<<< ../../../lessons/l11-t3d-quad/Makefile{make}
+:::
+
+::: details `lessons/l11-t3d-quad/src/main.c`
+<<< ../../../lessons/l11-t3d-quad/src/main.c{c}
+:::
+
 ## What you learned
 
 - Tiny3D init + per-frame attach/clear/draw/present  

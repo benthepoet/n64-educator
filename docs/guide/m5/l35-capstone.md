@@ -45,6 +45,22 @@ Tune freely.
 
 Replace `assets/*.t3dm` (and audio) in `capstone/starshard-cove/assets/` with your exports from Module 3. Keep names or update `t3d_model_load` paths.
 
+
+## Full capstone source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`capstone/starshard-cove/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/capstone/starshard-cove/Makefile) · [`capstone/starshard-cove/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/capstone/starshard-cove/src/main.c)
+
+::: details `capstone/starshard-cove/Makefile`
+<<< ../../../capstone/starshard-cove/Makefile{make}
+:::
+
+::: details `capstone/starshard-cove/src/main.c`
+<<< ../../../capstone/starshard-cove/src/main.c{c}
+:::
+
 ## Next
 
 [L36 — Shipping](./l36-shipping).

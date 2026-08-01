@@ -132,6 +132,23 @@ make -C lessons/l01-hello-rom clean
 | Emulator shows nothing / crashes | Use Ares; enable Homebrew mode |
 | Text missing but color OK | Font registration failed — compare your `main.c` to the lesson file |
 
+
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l01-hello-rom/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l01-hello-rom/Makefile) · [`lessons/l01-hello-rom/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l01-hello-rom/src/main.c)
+
+::: details `lessons/l01-hello-rom/Makefile`
+<<< ../../../lessons/l01-hello-rom/Makefile{make}
+:::
+
+::: details `lessons/l01-hello-rom/src/main.c`
+<<< ../../../lessons/l01-hello-rom/src/main.c{c}
+:::
+
 ## What you learned
 
 - libdragon project shape (`Makefile` + `src/`)
@@ -140,4 +157,4 @@ make -C lessons/l01-hello-rom clean
 
 ## Next
 
-[L02 — Game loop & display](/guide/m0/l02-game-loop) (placeholder until written) will refine frame timing and the idea of update vs render.
+[L02 — Game loop & display](/guide/m0/l02-game-loop)

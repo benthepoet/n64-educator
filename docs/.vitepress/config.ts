@@ -22,6 +22,15 @@ export default defineConfig({
   // Avoid broken absolute asset paths on project pages
   ignoreDeadLinks: true,
 
+  // Allow VitePress markdown `<<<` snippets to read lesson sources outside docs/
+  vite: {
+    server: {
+      fs: {
+        allow: [join(__dirname, '../..')],
+      },
+    },
+  },
+
   themeConfig: {
     nav: [
       { text: 'Guide', link: '/guide/intro' },

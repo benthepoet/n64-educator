@@ -32,6 +32,22 @@ Toy Cove with audio + always-visible **Shards n/3** and **Time** in play mode.
 - Pause should freeze gameplay and show big centered text  
 - Don’t overdraw — N64 text is precious for readability  
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l33-hud/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l33-hud/Makefile) · [`lessons/l33-hud/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l33-hud/src/main.c)
+
+::: details `lessons/l33-hud/Makefile`
+<<< ../../../lessons/l33-hud/Makefile{make}
+:::
+
+::: details `lessons/l33-hud/src/main.c`
+<<< ../../../lessons/l33-hud/src/main.c{c}
+:::
+
 ## Next
 
 [L34 — Juice](./l34-juice).

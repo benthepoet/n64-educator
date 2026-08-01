@@ -46,13 +46,28 @@ We use **Semantic Versioning** and [Keep a Changelog](https://keepachangelog.com
 | `VERSION` | Single-line course version (`X.Y.Z`) |
 | `package.json` → `"version"` | Must match `VERSION` |
 | `CHANGELOG.md` | Human-readable history |
+| `README.md` | “currently **X.Y.Z**” line should match |
+
+### Pull requests
 
 When your PR is user-visible (docs, lessons, scripts):
 
 1. Add a bullet under `## [Unreleased]` in `CHANGELOG.md` (`Added` / `Changed` / `Fixed` / `Removed`).  
-2. Leave version numbers alone unless you are cutting a release (maintainers).
+2. Leave version numbers alone on the PR branch (maintainers bump on merge to `master`).
 
-Release steps are summarized in `docs/reference/changelog.md`.
+### Landing on `master` (maintainers)
+
+**Every commit/push to `master` that ships user-visible work must adjust version
+and changelog together:**
+
+1. Choose SemVer bump (patch / minor / major — see table in `CHANGELOG.md`).  
+2. Set the same version in `VERSION` and `package.json` (and README “currently”).  
+3. Move `[Unreleased]` bullets into a new `## [X.Y.Z] — YYYY-MM-DD` section.  
+4. Commit, tag `vX.Y.Z`, push `master` and tags.
+
+Do not push docs/feature work to `master` with only an `[Unreleased]` note.
+
+Release steps are also in `docs/reference/changelog.md`.
 
 ## Pull request checklist
 

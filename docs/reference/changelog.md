@@ -13,11 +13,14 @@ See the root **`VERSION`** file and `package.json` `"version"` field (they shoul
 
 ## Release process (maintainers)
 
+**Every user-visible land on `master` is a versioned release** (patch, minor, or major).
+
 1. Update `CHANGELOG.md`: move `[Unreleased]` notes into a new `## [X.Y.Z] — YYYY-MM-DD` section.  
-2. Set the same version in `VERSION` and `package.json`.  
-3. Commit on **`master`**: `Release vX.Y.Z`.  
+2. Set the same version in `VERSION`, `package.json`, and the README “currently” line.  
+3. Commit on **`master`**: `Release vX.Y.Z: …`.  
 4. Tag: `git tag -a vX.Y.Z -m "vX.Y.Z"`.  
 5. Push branch and tags: `git push origin master --tags`.  
 6. Optionally create a GitHub Release from the tag.
 
 Do **not** rewrite published changelog sections except for obvious typos.
+Do **not** push curriculum changes to `master` without a version + changelog bump.

@@ -41,6 +41,13 @@ Recall **TMEM ~4 KiB** (L05). Vertex color (L20) carries large-scale variation.
 1. Smart-UV a cube and put a checker on it.  
 2. Resize an image to 32×32 and reassign.  
 
+## Lesson code
+
+Module 3 is Blender-first — there is no per-lesson C ROM for L17–L25.
+
+Runnable code that loads the course meshes lives in the
+[Module 3 asset lab checkpoint](./checkpoint) (`lessons/m3-asset-lab/`).
+
 ## Next
 
 [L20 — Vertex paint](./l20-vertex-paint).

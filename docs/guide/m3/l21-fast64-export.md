@@ -54,6 +54,13 @@ Drop files in a lesson’s `assets/`:
 - `*.png` → `.sprite`  
 - prebuilt `*.t3dm` / `*.sdata` copied through  
 
+## Lesson code
+
+Module 3 is Blender-first — there is no per-lesson C ROM for L17–L25.
+
+Runnable code that loads the course meshes lives in the
+[Module 3 asset lab checkpoint](./checkpoint) (`lessons/m3-asset-lab/`).
+
 ## Next
 
 [L22 — Player & platform](./l22-player-platform).

@@ -148,6 +148,22 @@ If camera.x **increases**, `world - camera` **decreases** → props shift left o
 3. Explain to a rubber duck why stick-left makes props slide right.  
 4. (Stretch) Skim `ng_mat4_look_at` comments/code — identify eye, target, up.
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l08-camera/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l08-camera/Makefile) · [`lessons/l08-camera/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l08-camera/src/main.c)
+
+::: details `lessons/l08-camera/Makefile`
+<<< ../../../lessons/l08-camera/Makefile{make}
+:::
+
+::: details `lessons/l08-camera/src/main.c`
+<<< ../../../lessons/l08-camera/src/main.c{c}
+:::
+
 ## What you learned
 
 - Camera = pose + lens, not a required mesh  

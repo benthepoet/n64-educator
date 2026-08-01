@@ -183,6 +183,22 @@ You’re not “drawing a matrix.” You’re drawing points that the matrix mov
 3. Read the one-line call to `ng_mat4_trs_z` in `main.c` and match args to T / R / S.  
 4. (Stretch) Draw a second square with a fixed offset in local space (a “child” mental model).
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l07-matrices/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l07-matrices/Makefile) · [`lessons/l07-matrices/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l07-matrices/src/main.c)
+
+::: details `lessons/l07-matrices/Makefile`
+<<< ../../../lessons/l07-matrices/Makefile{make}
+:::
+
+::: details `lessons/l07-matrices/src/main.c`
+<<< ../../../lessons/l07-matrices/src/main.c{c}
+:::
+
 ## What you learned
 
 - Model matrix places local geometry in the world  

@@ -38,6 +38,13 @@ Asset lab: select `player_anim`, press **A** to blend toward walk.
 2. Open the reference `.blend` if provided in Tiny3D examples and inspect actions.  
 3. (Stretch) Make a 2-bone lamp with a bob idle.
 
+## Lesson code
+
+Module 3 is Blender-first — there is no per-lesson C ROM for L17–L25.
+
+Runnable code that loads the course meshes lives in the
+[Module 3 asset lab checkpoint](./checkpoint) (`lessons/m3-asset-lab/`).
+
 ## Next
 
 [Checkpoint — Asset lab](./checkpoint).

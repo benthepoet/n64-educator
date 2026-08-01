@@ -56,6 +56,29 @@ These are **core** topics (not optional extras):
 
 **Starshard Cove** reuses patterns from earlier lessons. Module 4–5 are aimed at that design on purpose — see the [one-page GDD](/guide/m5/starshard-cove).
 
+## Shared course library source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`common/lesson.mk`](https://github.com/benthepoet/n64-educator/blob/master/common/lesson.mk) · [`common/include/ng_math.h`](https://github.com/benthepoet/n64-educator/blob/master/common/include/ng_math.h) · [`common/src/ng_math.c`](https://github.com/benthepoet/n64-educator/blob/master/common/src/ng_math.c) · [`common/include/ng_game.h`](https://github.com/benthepoet/n64-educator/blob/master/common/include/ng_game.h)
+
+::: details `common/lesson.mk`
+<<< ../../common/lesson.mk{make}
+:::
+
+::: details `common/include/ng_math.h`
+<<< ../../common/include/ng_math.h{c}
+:::
+
+::: details `common/src/ng_math.c`
+<<< ../../common/src/ng_math.c{c}
+:::
+
+::: details `common/include/ng_game.h`
+<<< ../../common/include/ng_game.h{c}
+:::
+
 ## Getting help
 
 - Re-read the lesson’s troubleshooting box

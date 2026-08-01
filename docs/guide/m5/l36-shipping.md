@@ -36,3 +36,7 @@ Flashcarts (SC64, EverDrive, 64drive) load the same `.z64`. Prefer USB loaders t
 If Starshard Cove runs end-to-end, you can honestly say you built a **3D N64 homebrew game** with authored art, animation, and audio using modern open tooling.
 
 Congratulations.
+
+## Related source
+
+Shipping checklist — build and ship from [Starshard Cove](./starshard-cove) (`capstone/starshard-cove/`).

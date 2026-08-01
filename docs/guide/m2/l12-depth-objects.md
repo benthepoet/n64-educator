@@ -71,6 +71,22 @@ Starshard Cove will be a list of entities (player, shards, island), each with a 
 2. Swap draw order of red/cyan with depth ON — should still look correct.  
 3. Add a third quad (copy-paste pattern) at another Z.
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l12-depth-objects/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l12-depth-objects/Makefile) · [`lessons/l12-depth-objects/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l12-depth-objects/src/main.c)
+
+::: details `lessons/l12-depth-objects/Makefile`
+<<< ../../../lessons/l12-depth-objects/Makefile{make}
+:::
+
+::: details `lessons/l12-depth-objects/src/main.c`
+<<< ../../../lessons/l12-depth-objects/src/main.c{c}
+:::
+
 ## What you learned
 
 - Multiple model matrices  

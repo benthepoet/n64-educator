@@ -73,6 +73,22 @@ Re-loading many small batches per frame is fine for a teaching grid, not for a f
 2. Bias `paint_noise` toward brown — “paths.”  
 3. Module 1 checkpoint + Module 2: explain TMEM + vertex paint in two sentences.
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l16-vertex-color/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l16-vertex-color/Makefile) · [`lessons/l16-vertex-color/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l16-vertex-color/src/main.c)
+
+::: details `lessons/l16-vertex-color/Makefile`
+<<< ../../../lessons/l16-vertex-color/Makefile{make}
+:::
+
+::: details `lessons/l16-vertex-color/src/main.c`
+<<< ../../../lessons/l16-vertex-color/src/main.c{c}
+:::
+
 ## What you learned
 
 - Vertex color on Tiny3D geometry  

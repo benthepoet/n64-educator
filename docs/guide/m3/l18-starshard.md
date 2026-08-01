@@ -33,6 +33,13 @@ Use this if you want a known-good mesh while learning UI.
 - Object origin near center/bottom (easier to place in game)  
 - Not microscopic / not planet-sized vs player  
 
+## Lesson code
+
+Module 3 is Blender-first — there is no per-lesson C ROM for L17–L25.
+
+Runnable code that loads the course meshes lives in the
+[Module 3 asset lab checkpoint](./checkpoint) (`lessons/m3-asset-lab/`).
+
 ## Next
 
 [L19 — UVs & textures](./l19-uvs) — or skip to vertex paint if you only want colors first (L20). For N64, **vertex paint alone is valid**.

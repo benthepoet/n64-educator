@@ -26,6 +26,13 @@ Animation comes in L24–L25; static is enough to place in a scene now.
 
 Rebuild props, open M3 lab, D-pad to `platform` / `player_static`.
 
+## Lesson code
+
+Module 3 is Blender-first — there is no per-lesson C ROM for L17–L25.
+
+Runnable code that loads the course meshes lives in the
+[Module 3 asset lab checkpoint](./checkpoint) (`lessons/m3-asset-lab/`).
+
 ## Next
 
 [L23 — Level layout](./l23-level).

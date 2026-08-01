@@ -112,6 +112,22 @@ make -C lessons/l03-controllers
 | Stick never centers | Raise `STICK_DEADZONE` slightly |
 | A fires every frame | You used **held** instead of **pressed** for a one-shot |
 
+
+## Full lesson source
+
+The blocks below are **imported from the real repository files** at build time
+(VitePress `<<<` snippets). They are not hand-copied into this markdown.
+
+[`lessons/l03-controllers/Makefile`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l03-controllers/Makefile) · [`lessons/l03-controllers/src/main.c`](https://github.com/benthepoet/n64-educator/blob/master/lessons/l03-controllers/src/main.c)
+
+::: details `lessons/l03-controllers/Makefile`
+<<< ../../../lessons/l03-controllers/Makefile{make}
+:::
+
+::: details `lessons/l03-controllers/src/main.c`
+<<< ../../../lessons/l03-controllers/src/main.c{c}
+:::
+
 ## What you learned
 
 - `joypad_init` / `joypad_poll` / `joypad_get_inputs`
