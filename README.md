@@ -1,6 +1,6 @@
 # N64 Educator
 
-[![Docs](https://img.shields.io/badge/docs-VitePress-blue)](#browse-the-curriculum)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://benthepoet.github.io/n64-educator/)
 [![License: MIT](https://img.shields.io/badge/code-MIT-green.svg)](LICENSE)
 [![Docs license: CC BY 4.0](https://img.shields.io/badge/docs-CC%20BY%204.0-lightgrey.svg)](LICENSE-DOCS)
 
@@ -57,6 +57,11 @@ Open the ROM in [Ares](https://github.com/ares-emulator/ares) with **Homebrew mo
 
 ### 3. Browse the curriculum
 
+**Live site (GitHub Pages):**  
+https://benthepoet.github.io/n64-educator/
+
+Local preview:
+
 ```bash
 npm install
 npm run docs:dev
@@ -84,13 +89,25 @@ make cove
 ## Status
 
 **Version:** see [`VERSION`](VERSION) (currently **1.0.0**).  
-**Branch:** development happens on **`master`**.
+**Branch:** development happens on **`master`**.  
+**Docs:** https://benthepoet.github.io/n64-educator/
 
 Course Modules 0–5 are complete. Expect revisions as libdragon preview and
 Tiny3D evolve — pins live in
 [docs/reference/versions.md](docs/reference/versions.md).
 
 History: **[CHANGELOG.md](CHANGELOG.md)** (Keep a Changelog + SemVer).
+
+### GitHub Pages
+
+The VitePress site deploys from **`master`** via `.github/workflows/docs.yml`.
+
+One-time setup (repo admin):
+
+1. **Settings → Pages → Build and deployment → Source:** *GitHub Actions*  
+2. Push to `master` (or run the **Docs** workflow manually under Actions)
+
+Site URL: `https://benthepoet.github.io/n64-educator/`
 
 ## Contributing
 

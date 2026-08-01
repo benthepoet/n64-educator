@@ -5,6 +5,14 @@
   "description": "Open-source educational guide for N64 3D game development with libdragon and Tiny3D",
   "license": "MIT",
   "type": "module",
+  "homepage": "https://benthepoet.github.io/n64-educator/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benthepoet/n64-educator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/benthepoet/n64-educator/issues"
+  },
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",

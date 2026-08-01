@@ -22,7 +22,12 @@ Bump the course version when pins change in a way that affects learners.
 
 ### Added
 
+- GitHub Pages hosting for the VitePress curriculum (`https://benthepoet.github.io/n64-educator/`)
+- Docs deploy workflow (build + `actions/deploy-pages`)
+
 ### Changed
+
+- VitePress `base` is `/n64-educator/` in CI (local dev still uses `/`)
 
 ### Fixed
 

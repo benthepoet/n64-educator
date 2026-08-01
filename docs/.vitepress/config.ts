@@ -6,12 +6,21 @@ import { dirname, join } from 'node:path'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const courseVersion = readFileSync(join(__dirname, '../../VERSION'), 'utf8').trim()
 
+// Project Pages: https://benthepoet.github.io/n64-educator/
+// Local `npm run docs:dev` keeps base `/` so the site is at http://localhost:5173/
+const pagesBase = process.env.VITEPRESS_BASE
+  ?? (process.env.GITHUB_ACTIONS === 'true' ? '/n64-educator/' : '/')
+
 export default defineConfig({
   title: 'N64 Educator',
   description:
     'Learn 3D N64 game development with libdragon and Tiny3D — from zero to Starshard Cove.',
+  base: pagesBase,
   cleanUrls: true,
   lastUpdated: true,
+
+  // Avoid broken absolute asset paths on project pages
+  ignoreDeadLinks: true,
 
   themeConfig: {
     nav: [
@@ -134,7 +143,14 @@ export default defineConfig({
       ],
     },
 
-    socialLinks: [],
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/benthepoet/n64-educator' },
+    ],
+
+    editLink: {
+      pattern: 'https://github.com/benthepoet/n64-educator/edit/master/docs/:path',
+      text: 'Edit this page on GitHub',
+    },
 
     search: {
       provider: 'local',
