@@ -569,10 +569,13 @@ int main(void)
 
         /* Title screen: show empty island only (no player). */
         if (state != ST_TITLE) {
-            t3d_matrix_set(&playerMat[frame], true);
+            /* PUSH so the model composes with the camera matrix on the stack
+             * (matrix_set would overwrite it → blank mesh). */
+            t3d_matrix_push(&playerMat[frame]);
             /* Skinned draw uses the skeleton pose we updated above. */
             t3d_skeleton_use(&skel);
             t3d_model_draw_skinned(player, &skel);
+            t3d_matrix_pop(1);
         }
 
         /* ------------------------------------------------------------------ */

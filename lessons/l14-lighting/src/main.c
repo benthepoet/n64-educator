@@ -118,12 +118,18 @@ int main(void)
 
         t3d_state_set_drawflags(T3D_FLAG_SHADED | T3D_FLAG_DEPTH);
 
-        t3d_matrix_set(modelMatFP, true);
+        /* PUSH so the model composes with the camera matrix on the stack;
+         * POP once the verts are loaded (t3d_matrix_set here would overwrite
+         * the camera → blank mesh). */
+        t3d_matrix_push(modelMatFP);
         t3d_vert_load(vFront, 0, 4);
+        t3d_matrix_pop(1);
         t3d_tri_draw(0, 1, 2);
         t3d_tri_draw(2, 3, 0);
         t3d_tri_sync();
+        t3d_matrix_push(modelMatFP);
         t3d_vert_load(vTop, 0, 4);
+        t3d_matrix_pop(1);
         t3d_tri_draw(0, 1, 2);
         t3d_tri_draw(2, 3, 0);
         t3d_tri_sync();

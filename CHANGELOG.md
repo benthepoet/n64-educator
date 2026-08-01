@@ -34,6 +34,16 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.1.5] — 2026-08-01
+
+### Fixed
+
+- More lessons use **`t3d_matrix_push` / `pop`** instead of `t3d_matrix_set` so
+  model matrices compose with the camera stack (blank mesh / clear-color-only):
+  L12–L14, L26, L30, m3-asset-lab, and Starshard Cove player draw
+
+---
+
 ## [1.1.4] — 2026-08-01
 
 ### Fixed
@@ -154,7 +164,8 @@ First public open-source release of the full curriculum.
 - Default git branch: **`master`**
 - Requires libdragon **preview** + Tiny3D (see pinned versions doc)
 
-[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.4...HEAD
+[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.5...HEAD
+[1.1.5]: https://github.com/benthepoet/n64-educator/compare/v1.1.4...v1.1.5
 [1.1.4]: https://github.com/benthepoet/n64-educator/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/benthepoet/n64-educator/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/benthepoet/n64-educator/compare/v1.1.1...v1.1.2

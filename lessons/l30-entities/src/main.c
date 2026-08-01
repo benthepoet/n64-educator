@@ -232,10 +232,14 @@ int main(void)
         t3d_light_set_directional(0, dirC, &ldir);
         t3d_light_set_count(1);
 
-        t3d_matrix_set(islandMat, true);
+        /* PUSH/POP per object so each model composes with the camera matrix
+         * that viewport_attach placed on the stack (matrix_set would overwrite
+         * it → blank mesh). */
+        t3d_matrix_push(islandMat);
         if (mdlIsland) {
             t3d_model_draw(mdlIsland);
         }
+        t3d_matrix_pop(1);
 
         for (int i = 0; i < entCount; i++) {
             Entity *e = &ents[i];
@@ -248,15 +252,17 @@ int main(void)
                 t3d_model_draw_skinned(mdlPlayer, &skel);
                 t3d_matrix_pop(1);
             } else if (e->type == ENT_SHARD) {
-                t3d_matrix_set(e->mat, true);
+                t3d_matrix_push(e->mat);
                 if (mdlShard) {
                     t3d_model_draw(mdlShard);
                 }
+                t3d_matrix_pop(1);
             } else if (e->type == ENT_PLATFORM) {
-                t3d_matrix_set(e->mat, true);
+                t3d_matrix_push(e->mat);
                 if (mdlPlat) {
                     t3d_model_draw(mdlPlat);
                 }
+                t3d_matrix_pop(1);
             }
         }
 

@@ -94,15 +94,20 @@ int main(void)
         }
         t3d_state_set_drawflags(flags);
 
-        /* Draw FAR first, then NEAR — with depth, order should not matter. */
-        t3d_matrix_set(matFar, true);
+        /* Draw FAR first, then NEAR — with depth, order should not matter.
+         * Each object uses PUSH/POP so its model composes with the camera
+         * matrix that viewport_attach placed on the stack (t3d_matrix_set
+         * here would overwrite the camera → invisible geometry). */
+        t3d_matrix_push(matFar);
         t3d_vert_load(quadCyan, 0, 4);
+        t3d_matrix_pop(1);
         t3d_tri_draw(0, 1, 2);
         t3d_tri_draw(2, 3, 0);
         t3d_tri_sync();
 
-        t3d_matrix_set(matNear, true);
+        t3d_matrix_push(matNear);
         t3d_vert_load(quadRed, 0, 4);
+        t3d_matrix_pop(1);
         t3d_tri_draw(0, 1, 2);
         t3d_tri_draw(2, 3, 0);
         t3d_tri_sync();

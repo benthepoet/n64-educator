@@ -162,14 +162,19 @@ int main(void)
         t3d_light_set_directional(0, dirC, &ldir);
         t3d_light_set_count(1);
 
-        t3d_matrix_set(islandMat, true);
+        /* PUSH/POP per object so each model composes with the camera matrix
+         * that viewport_attach placed on the stack (matrix_set would overwrite
+         * it → blank mesh). */
+        t3d_matrix_push(islandMat);
         if (island) {
             t3d_model_draw(island);
         }
-        t3d_matrix_set(&playerMat[frame], true);
+        t3d_matrix_pop(1);
+        t3d_matrix_push(&playerMat[frame]);
         if (player) {
             t3d_model_draw(player);
         }
+        t3d_matrix_pop(1);
 
         rdpq_set_mode_standard();
         rdpq_text_print(NULL, 1, 10, 12, "L26 — Move (camera-relative)");

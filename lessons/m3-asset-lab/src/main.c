@@ -181,7 +181,10 @@ int main(void)
         t3d_light_set_directional(0, dirCol, &lightDir);
         t3d_light_set_count(1);
 
-        t3d_matrix_set(&modelMatFP[frameIdx], true);
+        /* PUSH so the model composes with the camera matrix that
+         * viewport_attach placed on the stack (matrix_set would overwrite it
+         * → blank mesh). */
+        t3d_matrix_push(&modelMatFP[frameIdx]);
         if (models[prop]) {
             if (prop == PROP_PLAYER_ANIM && hasAnim) {
                 t3d_skeleton_use(&skel);
@@ -190,6 +193,7 @@ int main(void)
                 t3d_model_draw(models[prop]);
             }
         }
+        t3d_matrix_pop(1);
 
         rdpq_set_mode_standard();
         rdpq_text_print(NULL, 1, 10, 12, "M3 Asset Lab");

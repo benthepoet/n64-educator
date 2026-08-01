@@ -124,14 +124,21 @@ int main(void)
         t3d_light_set_count(1);
         t3d_state_set_drawflags(T3D_FLAG_SHADED | T3D_FLAG_DEPTH);
 
-        t3d_matrix_set(modelMatFP, true);
+        /* Per-object matrix: PUSH so the model composes with the camera matrix
+         * that viewport_attach placed on the stack, then POP once the vertices
+         * are loaded (verts capture the matrix). Using t3d_matrix_set(x, true)
+         * here would overwrite the camera matrix and draw nothing but the clear
+         * color. See Tiny3D 00_quad / the L15 fix. */
+        t3d_matrix_push(modelMatFP);
         t3d_vert_load(verts, 0, 4);
+        t3d_matrix_pop(1);
         t3d_tri_draw(0, 1, 2);
         t3d_tri_draw(2, 3, 0);
         t3d_tri_sync();
 
-        t3d_matrix_set(markerMat, true);
+        t3d_matrix_push(markerMat);
         t3d_vert_load(marker, 0, 4);
+        t3d_matrix_pop(1);
         t3d_tri_draw(0, 1, 2);
         t3d_tri_draw(2, 3, 0);
         t3d_tri_sync();
