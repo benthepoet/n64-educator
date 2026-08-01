@@ -1,0 +1,39 @@
+# L26 — Player movement in 3D
+
+::: tip Goal
+Move a character on the island with the stick, **relative to the camera**, and face the movement direction.
+:::
+
+## In plain English
+
+Stick left/right/up/down should feel like “strafe / forward” based on where the camera looks — not raw world axes. We:
+
+1. Read stick as a 2D vector  
+2. Rotate it by camera yaw into world XZ  
+3. Integrate position with `dt`  
+4. Slerp/lerp **yaw** toward the move direction  
+
+## What you will see
+
+```bash
+make -C lessons/l26-move
+```
+
+Static player on painted island. Stick moves; soft wall keeps you on the mesh-ish disk.
+
+## Key idea: camera-relative
+
+```text
+world_dir = rotate_y(camera_yaw) * stick
+position += world_dir * speed * dt
+```
+
+## Exercises
+
+1. Change `moveSpeed`.  
+2. Print yaw in degrees.  
+3. (Stretch) Press C-left/right to rotate `camYaw` (L28 does better follow).
+
+## Next
+
+[L27 — Anim drive](./l27-anim-drive).

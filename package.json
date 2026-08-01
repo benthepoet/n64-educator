@@ -1,0 +1,16 @@
+{
+  "name": "n64-educator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Open-source educational guide for N64 3D game development with libdragon and Tiny3D",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.3"
+  }
+}

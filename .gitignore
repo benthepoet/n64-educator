@@ -1,0 +1,43 @@
+# Build artifacts
+**/build/
+**/*.z64
+**/*.dfs
+**/*.elf
+**/*.map
+**/*.stripped
+**/filesystem/
+**/*_f3d.glb
+
+# Node / VitePress
+node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+*.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+!.vscode/extensions.json
+
+# Toolchain local overrides / secrets
+.env
+.env.*
+!.env.example
+*.pem
+
+# Blender autosave
+*.blend1
+*.blend2
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Editor / OS junk
+*.orig
+*.bak

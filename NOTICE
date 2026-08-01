@@ -1,0 +1,25 @@
+N64 Educator
+============
+
+Copyright (c) 2026 N64 Educator contributors
+
+This project is open source. See LICENSE (MIT) for source code and scripts,
+and LICENSE-DOCS (CC BY 4.0) for curriculum documentation under docs/.
+
+Original course-generated art under assets-src/blender/generated is dedicated
+to the public domain under CC0 1.0 (see assets-src/ATTRIBUTION.md).
+
+Trademarks
+----------
+Nintendo 64 and N64 are trademarks of Nintendo. This project is not affiliated
+with or endorsed by Nintendo.
+
+Upstream dependencies (not vendored as complete SDKs)
+-----------------------------------------------------
+- libdragon — https://github.com/DragonMinded/libdragon (Unlicense)
+- Tiny3D — https://github.com/HailToDodongo/tiny3d (MIT)
+- Fast64 — https://github.com/Fast-64/fast64 (see that project’s license)
+- Blender — https://www.blender.org/ (GPL; used as a host tool, not shipped)
+
+Bundled third-party teaching assets are listed in assets-src/ATTRIBUTION.md.
+Always preserve those notices when redistributing.

@@ -1,0 +1,37 @@
+name: Lessons
+
+# Compiles lesson ROMs when a libdragon toolchain is available in CI.
+# Initially allowed to be skipped/manual until the container pin is finalized.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - 'lessons/**'
+      - 'common/**'
+      - 'capstone/**'
+      - 'scripts/build-all.sh'
+      - '.github/workflows/lessons.yml'
+  pull_request:
+    paths:
+      - 'lessons/**'
+      - 'common/**'
+      - 'capstone/**'
+      - 'scripts/build-all.sh'
+      - '.github/workflows/lessons.yml'
+
+jobs:
+  build-lessons:
+    runs-on: ubuntu-latest
+    # TODO: use an official/pinned libdragon Docker image and set N64_INST.
+    # Until then this job documents intent and fails with a clear message.
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder — toolchain CI not wired yet
+        run: |
+          echo "Lesson ROM CI will run once N64_INST is provided via a pinned container."
+          echo "Locally: export N64_INST=... && ./scripts/build-all.sh"
+          ls -la lessons/l01-hello-rom/
+          test -f lessons/l01-hello-rom/src/main.c
+          test -f common/lesson.mk
