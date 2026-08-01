@@ -51,7 +51,8 @@ Starshard Cove will be a list of entities (player, shards, island), each with a 
 
 - `T3D_FLAG_DEPTH` — enable depth testing/writing for draws.  
 - Always **clear depth** each frame (`t3d_screen_clear_depth`) or you’ll see ghosts.  
-- `t3d_matrix_set(mat, true)` — set current model matrix for following verts.
+- `t3d_matrix_set(mat, true)` — set current model matrix for following verts.  
+- `rdpq_mode_combiner(RDPQ_COMBINER_SHADE)` — required for hand-built colored tris (same as L11).
 
 ---
 

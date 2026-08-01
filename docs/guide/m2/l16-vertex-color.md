@@ -51,6 +51,16 @@ For each grid cell, four corners get:
 
 Then two triangles per cell — same as L09, many times.
 
+Draw path (Tiny3D manual geometry, like L11 / `00_quad`):
+
+```c
+rdpq_mode_combiner(RDPQ_COMBINER_SHADE);
+t3d_matrix_push(worldMat);
+t3d_vert_load(...);   /* T&L happens here */
+t3d_matrix_pop(1);
+t3d_tri_draw(...);
+```
+
 ::: tip Performance honesty
 Re-loading many small batches per frame is fine for a teaching grid, not for a final open world. Real levels use fewer, optimized meshes (importer + strips). Learn the idea first.
 :::
@@ -62,6 +72,7 @@ Re-loading many small batches per frame is fine for a teaching grid, not for a f
 | Feeling | Reality |
 |---------|---------|
 | “I need a texture to see color” | Vertex color alone is enough (L16 proves it) |
+| “Terrain is black” | Missing `RDPQ_COMBINER_SHADE`, or matrix not set before `vert_load` |
 | “Paint is lighting” | Lighting still applies; paint multiplies with it |
 | “Blender is required for vertex color” | No — but artists *prefer* painting there (Module 3) |
 

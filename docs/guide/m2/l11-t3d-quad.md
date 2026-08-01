@@ -62,7 +62,20 @@ The RSP **DMAs** that memory. Cached writes might not be visible to DMA yet. Unc
 
 ## Display list (optional speed trick)
 
-The sample **records** the draw once (`rspq_block_begin/end`) and replays it. The matrix memory still updates each frame, so the quad spins without rebuilding the list. You can also draw immediately without recording — recording is an optimization pattern you’ll see often.
+The sample **records** the draw once (`rspq_block_begin/end`) and replays it. Inside
+the recorded block the lesson uses **`t3d_matrix_push` → vert load → `t3d_matrix_pop`**
+so T&L sees the model matrix; the matrix *memory* still updates each frame, so the
+quad spins without rebuilding the list. You can also draw immediately without
+recording — recording is an optimization pattern you’ll see often (and L15 needs
+push/pop when recording a full model).
+
+Before drawing, the lesson sets:
+
+```c
+rdpq_mode_combiner(RDPQ_COMBINER_SHADE);
+```
+
+Without that, hand-built triangles often appear **black** even when vertex RGBA is set.
 
 ---
 
@@ -71,6 +84,7 @@ The sample **records** the draw once (`rspq_block_begin/end`) and replays it. Th
 | Feeling | Reality |
 |---------|---------|
 | “Black screen” | Forgot depth clear, camera inside geometry, or near/far wrong |
+| “Black *mesh* on a colored clear” | Missing `RDPQ_COMBINER_SHADE` (or ambient almost zero) |
 | “No 3D, flat mess” | Missing `t3d_viewport_attach` or projection |
 | “Colors wrong” | Lighting multiplies vertex colors; ambient too dark |
 | “Why uncached?” | RSP DMA vs CPU cache |

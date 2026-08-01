@@ -27,6 +27,7 @@ T3DAnim idle = t3d_anim_create(model, "Snake_Idle");
 t3d_anim_attach(&idle, &skel);
 t3d_anim_update(&idle, dt);
 t3d_skeleton_update(&skel);
+t3d_skeleton_use(&skel);          /* required when bufferCount > 1 */
 t3d_model_draw_skinned(model, &skel);
 ```
 

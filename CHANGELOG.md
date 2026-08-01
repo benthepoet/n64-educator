@@ -34,6 +34,16 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.1.3] — 2026-08-01
+
+### Changed
+
+- Curriculum docs aligned with recent Tiny3D bugfixes: L11/L12/L14/L16
+  (combiner + manual draw path), L25 (`t3d_skeleton_use`), L26 (stick-up /
+  camera-relative math), L27 (skeleton_use, sdata, sample map wording)
+
+---
+
 ## [1.1.2] — 2026-08-01
 
 ### Fixed
@@ -127,7 +137,8 @@ First public open-source release of the full curriculum.
 - Default git branch: **`master`**
 - Requires libdragon **preview** + Tiny3D (see pinned versions doc)
 
-[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.3...HEAD
+[1.1.3]: https://github.com/benthepoet/n64-educator/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/benthepoet/n64-educator/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/benthepoet/n64-educator/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/benthepoet/n64-educator/compare/v1.0.0...v1.1.0

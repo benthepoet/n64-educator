@@ -66,6 +66,7 @@ White vertices show lighting clearly. Dark vertex paint (L16) multiplies on top 
 | “Light position” | Directional lights have **direction**, not a point in space (point lights come later) |
 | “Ambient 0 is realistic” | Often too harsh for N64 readability; keep a little fill |
 | “Normals optional” | Without them, directional lighting can’t work |
+| “Mesh is pure black” | Check `RDPQ_COMBINER_SHADE` and ambient; shade × light can crush color |
 
 ---
 

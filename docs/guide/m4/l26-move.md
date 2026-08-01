@@ -23,10 +23,19 @@ Static player on painted island. Stick moves; soft wall keeps you on the mesh-is
 
 ## Key idea: camera-relative
 
+The follow camera sits on an offset `(sin θ, cos θ)` looking at the player, so
+**look** on XZ is `(-sin θ, -cos θ)`. Stick-up should move **into the screen**
+(along look), not toward the camera:
+
 ```text
-world_dir = rotate_y(camera_yaw) * stick
-position += world_dir * speed * dt
+// sx = stick right, sy = stick up (after deadzone)
+mx =  sx * cos(θ) - sy * sin(θ)
+mz = -sx * sin(θ) - sy * cos(θ)
+position += (mx, mz) * speed * dt
 ```
+
+If up/down feel inverted, the sign on `sy` is wrong (that was a real course bug
+fixed in v1.1.2).
 
 ## Exercises
 
