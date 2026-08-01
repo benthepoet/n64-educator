@@ -113,9 +113,10 @@ int main(void)
             speed = 1.f;
         }
 
+        /* Camera-relative: stick-up = into screen (along camera look on XZ). */
         float c = fm_cosf(camYaw), s = fm_sinf(camYaw);
-        float mx = sx * c + sy * s;
-        float mz = -sx * s + sy * c;
+        float mx = sx * c - sy * s;
+        float mz = -sx * s - sy * c;
 
         float blend = 0.f;
         if (speed > 0.15f) {

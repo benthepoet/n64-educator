@@ -108,13 +108,14 @@ int main(void)
 
         /*
          * Rotate stick into world space using camera yaw.
-         * Stick "up" (positive sy after our mapping) should move forward
-         * relative to the camera.
+         * Camera sits at offset (sin θ, cos θ) looking at the player, so look
+         * direction on XZ is (-sin θ, -cos θ). Stick-up (positive sy) moves
+         * that way (into the screen); stick-right moves camera-right.
          */
         float c = fm_cosf(camYaw);
         float s = fm_sinf(camYaw);
-        float mx = sx * c + sy * s;
-        float mz = -sx * s + sy * c;
+        float mx = sx * c - sy * s;
+        float mz = -sx * s - sy * c;
 
         const float moveSpeed = 8.f; /* world units per second */
         if (speed > 0.15f) {

@@ -402,8 +402,8 @@ int main(void)
             float c = fm_cosf(camF);
             float s = fm_sinf(camF);
             /* Map stick into world XZ */
-            float mx = sx * c + sy * s;
-            float mz = -sx * s + sy * c;
+            float mx = sx * c - sy * s;
+            float mz = -sx * s - sy * c;
 
             if (speed > 0.15f) {
                 pos.v[0] += mx * MOVE_SPEED * dt;

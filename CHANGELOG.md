@@ -34,6 +34,16 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.1.2] — 2026-08-01
+
+### Fixed
+
+- Camera-relative stick **up/down was inverted** (stick-up moved toward the
+  camera). Forward is now along the camera look direction on XZ in L26–L31,
+  L33–L34, Toy Cove, and Starshard Cove
+
+---
+
 ## [1.1.1] — 2026-08-01
 
 ### Fixed
@@ -117,7 +127,8 @@ First public open-source release of the full curriculum.
 - Default git branch: **`master`**
 - Requires libdragon **preview** + Tiny3D (see pinned versions doc)
 
-[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/benthepoet/n64-educator/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/benthepoet/n64-educator/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/benthepoet/n64-educator/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/benthepoet/n64-educator/releases/tag/v1.0.0

@@ -100,8 +100,8 @@ int main(void)
         /* Move relative to camera facing (player yaw + orbit). */
         float camFacing = yaw + orbit;
         float c = fm_cosf(camFacing), s = fm_sinf(camFacing);
-        float mx = sx * c + sy * s;
-        float mz = -sx * s + sy * c;
+        float mx = sx * c - sy * s;
+        float mz = -sx * s - sy * c;
         float blend = 0.f;
         if (speed > 0.15f) {
             pos.v[0] += mx * 7.5f * dt;

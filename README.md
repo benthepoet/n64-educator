@@ -88,7 +88,7 @@ make cove
 
 ## Status
 
-**Version:** see [`VERSION`](VERSION) (currently **1.1.1**).  
+**Version:** see [`VERSION`](VERSION) (currently **1.1.2**).  
 **Branch:** development happens on **`master`**.  
 **Docs:** https://benthepoet.github.io/n64-educator/
 

@@ -209,8 +209,8 @@ int main(void)
             }
             float camF = yaw + orbit;
             float c = fm_cosf(camF), s = fm_sinf(camF);
-            float mx = sx * c + sy * s;
-            float mz = -sx * s + sy * c;
+            float mx = sx * c - sy * s;
+            float mz = -sx * s - sy * c;
             if (speed > 0.15f) {
                 pos.v[0] += mx * 7.8f * dt;
                 pos.v[2] += mz * 7.8f * dt;
