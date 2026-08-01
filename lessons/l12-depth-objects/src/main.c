@@ -6,7 +6,7 @@
  * A toggles T3D_FLAG_DEPTH — watch red/cyan fight when OFF.
  * DOCS: docs/guide/m2/l12-depth-objects.md
  */
-\n
+
 
 #include <libdragon.h>
 #include <t3d/t3d.h>
@@ -80,6 +80,9 @@ int main(void)
 
         t3d_screen_clear_color(RGBA32(20, 24, 40, 0));
         t3d_screen_clear_depth();
+
+        /* Shade from vertex colors (+ lighting when SHADED). Without this, tris often draw black. */
+        rdpq_mode_combiner(RDPQ_COMBINER_SHADE);
 
         t3d_light_set_ambient(ambient);
         t3d_light_set_directional(0, dirCol, &lightDir);

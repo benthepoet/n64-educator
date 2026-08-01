@@ -6,7 +6,7 @@
  * Stick X rotates. RDP screen triangles stand in before Tiny3D meshes.
  * DOCS: docs/guide/m1/l09-meshes.md
  */
-\n
+
 
 #include <libdragon.h>
 #include <stdio.h>

@@ -7,7 +7,7 @@
  * We print |v| (length) and normalized dir (length ~1).
  * DOCS: docs/guide/m1/l06-vectors.md
  */
-\n
+
 
 #include <libdragon.h>
 #include <stdio.h>

@@ -244,6 +244,7 @@ int main(void)
             }
             if (e->type == ENT_PLAYER) {
                 t3d_matrix_set(&playerMats[frame], true);
+                t3d_skeleton_use(&skel);
                 t3d_model_draw_skinned(mdlPlayer, &skel);
             } else if (e->type == ENT_SHARD) {
                 t3d_matrix_set(e->mat, true);

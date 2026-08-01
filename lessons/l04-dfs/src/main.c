@@ -2,11 +2,11 @@
  * L04 — Assets on ROM (DFS)
  * ============================================================================
  * Assets live *inside* the .z64, not on your PC at runtime.
- *   PNG → mksprite → filesystem/*.sprite → packed DFS → rom:/name.sprite
+ *   PNG → mksprite → filesystem/(name).sprite → packed DFS → rom:/name.sprite
  * Always dfs_init() then sprite_load("rom:/...").
  * DOCS: docs/guide/m0/l04-dfs.md
  */
-\n
+
 
 #include <libdragon.h>
 #include <stdio.h>

@@ -6,7 +6,7 @@
  * Stick moves camera; A toggles zoom (lens intuition).
  * DOCS: docs/guide/m1/l08-camera.md
  */
-\n
+
 
 #include <libdragon.h>
 #include <stdio.h>

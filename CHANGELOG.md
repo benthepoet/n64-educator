@@ -34,6 +34,37 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.1.1] — 2026-08-01
+
+### Fixed
+
+- **L15** model draw: recorded `t3d_model_draw` must use `t3d_matrix_push` /
+  recorded `t3d_matrix_pop` (Tiny3D `01_model` pattern); `matrix_set` alone left
+  a blank mesh on a valid clear color
+- **L11–L14, L16** manual Tiny3D geometry: set `rdpq_mode_combiner(RDPQ_COMBINER_SHADE)`
+  so vertex colors are not black
+- **L16** terrain draw path (push/load/pop, int16 positions) and remove a stray
+  `\\n` line that broke compilation in several lesson sources
+- **L27** skinned character: bake animation streams as `rom:/player_anim.N.sdata`,
+  call `t3d_skeleton_use` before `t3d_model_draw_skinned` for buffered skeletons,
+  and align map/player scale and camera with Tiny3D’s known-good `08_animation` sample
+- Same **`t3d_skeleton_use`** fix for L28–L31, L33–L34, m3-asset-lab, m4-toy-cove,
+  and Starshard Cove
+- **`common/lesson.mk`**: document that `gltf_to_t3d` output must live under
+  `filesystem/` so animation `.sdata` paths get the `rom:/` prefix; prefer glb
+  conversion over a same-named prebuilt `.t3dm`
+
+### Changed
+
+- **Attribution:** expand `assets-src/ATTRIBUTION.md` and `NOTICE` with an
+  inventory of course CC0 props, Quaternius snake / `player_anim`, Tiny3D L15
+  model + map textures (MIT / Max Bebök notice), and libdragon audio samples
+- Docs license page and README credits aligned with that inventory
+- L27 teaching assets: sample map + correctly converted snake character (still
+  Quaternius CC0 via Tiny3D examples)
+
+---
+
 ## [1.1.0] — 2026-08-01
 
 ### Added
@@ -86,6 +117,7 @@ First public open-source release of the full curriculum.
 - Default git branch: **`master`**
 - Requires libdragon **preview** + Tiny3D (see pinned versions doc)
 
-[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/benthepoet/n64-educator/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/benthepoet/n64-educator/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/benthepoet/n64-educator/releases/tag/v1.0.0

@@ -6,7 +6,7 @@
  * If this ROM works, your foundations are solid.
  * DOCS: docs/guide/m0/checkpoint.md
  */
-\n
+
 
 #include <libdragon.h>
 #include <stdio.h>

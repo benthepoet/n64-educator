@@ -6,7 +6,7 @@
  * Stick Y changes ambient. Same "material", spatial paint free of huge textures.
  * DOCS: docs/guide/m1/l10-color-light.md
  */
-\n
+
 
 #include <libdragon.h>
 #include <stdio.h>

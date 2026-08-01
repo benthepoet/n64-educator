@@ -6,7 +6,7 @@
  * White dot = object origin. Order matters: scale, then rotate, then translate.
  * DOCS: docs/guide/m1/l07-matrices.md
  */
-\n
+
 
 #include <libdragon.h>
 #include <stdio.h>

@@ -49,15 +49,24 @@ On build logs you should spot:
 dfs_init(DFS_DEFAULT_LOCATION);
 T3DModel *model = t3d_model_load("rom:/model.t3dm");
 
+/* Record once — end with matrix_pop so it pairs with push each frame */
 rspq_block_begin();
 t3d_model_draw(model);
+t3d_matrix_pop(1);
 rspq_block_t *dpl = rspq_block_end();
 
-/* each frame after matrix set: */
+/* each frame: */
+t3d_matrix_push(&modelMatFP[frameIdx]);
 rspq_block_run(dpl);
 ```
 
 Materials and texture binds are largely **inside** the model format — less manual RDP than L04 sprites.
+
+::: warning Recorded draws need push + pop
+If you record `t3d_model_draw` into an `rspq` block, use **`t3d_matrix_push`** before `rspq_block_run` and **`t3d_matrix_pop(1)`** inside the recorded block (Tiny3D `examples/01_model`).
+
+`t3d_matrix_set` + immediate `t3d_model_draw` is fine for live draws (later lessons). Mixing `matrix_set` with a recorded block often gives a **blank mesh** on a correct clear color — text still works.
+:::
 
 ### Matrix buffering
 

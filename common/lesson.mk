@@ -53,10 +53,14 @@ ASSETS_SDATA := $(wildcard assets/*.sdata)
 ASSETS_WAV := $(wildcard assets/*.wav)
 ASSETS_XM := $(wildcard assets/*.xm)
 ASSETS_SPRITES := $(addprefix filesystem/,$(notdir $(ASSETS_PNG:%.png=%.sprite)))
-# Prefer prebuilt .t3dm in assets/; else convert from .glb
+# Convert .glb → filesystem/*.t3dm (output path MUST be under filesystem/ so
+# gltf_to_t3d embeds rom:/… paths for animation .sdata — bare "foo.2.sdata"
+# fails open() with "File not found").
+# Prefer glb conversion over a prebuilt .t3dm of the same base name.
 ASSETS_T3DM_FROM_GLB := $(addprefix filesystem/,$(notdir $(ASSETS_GLB:%.glb=%.t3dm)))
-ASSETS_T3DM_FROM_PRE := $(addprefix filesystem/,$(notdir $(ASSETS_T3DM_PRE)))
-ASSETS_T3DM := $(ASSETS_T3DM_FROM_PRE) $(filter-out $(ASSETS_T3DM_FROM_PRE),$(ASSETS_T3DM_FROM_GLB))
+ASSETS_T3DM_FROM_PRE_ALL := $(addprefix filesystem/,$(notdir $(ASSETS_T3DM_PRE)))
+ASSETS_T3DM_FROM_PRE := $(filter-out $(ASSETS_T3DM_FROM_GLB),$(ASSETS_T3DM_FROM_PRE_ALL))
+ASSETS_T3DM := $(ASSETS_T3DM_FROM_PRE) $(ASSETS_T3DM_FROM_GLB)
 ASSETS_SDATA_OUT := $(addprefix filesystem/,$(notdir $(ASSETS_SDATA)))
 ASSETS_WAV64 := $(addprefix filesystem/,$(notdir $(ASSETS_WAV:%.wav=%.wav64)))
 ASSETS_XM64 := $(addprefix filesystem/,$(notdir $(ASSETS_XM:%.xm=%.xm64)))
@@ -96,6 +100,7 @@ filesystem/%.sdata: assets/%.sdata
 endif
 
 ifneq ($(ASSETS_GLB),)
+# $@ is filesystem/name.t3dm — required so animation streams bake as rom:/name.N.sdata
 filesystem/%.t3dm: assets/%.glb
 	@mkdir -p $(dir $@) $(BUILD_DIR)
 	@echo "    [T3D-MODEL] $@"

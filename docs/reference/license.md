@@ -13,16 +13,23 @@ N64 Educator is an **open-source** educational project.
 
 ## Third-party assets
 
-Full list: **`assets-src/ATTRIBUTION.md`** in the repository root (Quaternius character, libdragon example audio, Tiny3D sample textures, etc.).
+Canonical inventory: repository **`assets-src/ATTRIBUTION.md`** (and root **`NOTICE`**).
 
-Always preserve attribution when you fork or republish.
+| Bundle | License | Credit |
+|--------|---------|--------|
+| Course props (`starshard`, `platform`, `island`, `player_static`, `star.png`) | CC0 1.0 | N64 Educator |
+| Snake / `player_anim` | CC0 (Quaternius) + Tiny3D packaging (MIT) | Quaternius; Max Bebök / Tiny3D |
+| L15 `model` + textures; map / sand / stone / shadow | MIT (Tiny3D examples) | Max Bebök / Tiny3D |
+| Example SFX / `music.xm` | Unlicense (libdragon examples) | libdragon / upstream sample authors |
+
+Always preserve `ATTRIBUTION.md` and `NOTICE` when you fork or republish.
 
 ## Upstream tools
 
 Installed separately (not a complete redistributed SDK dump):
 
 - **libdragon** — Unlicense — https://github.com/DragonMinded/libdragon  
-- **Tiny3D** — MIT — https://github.com/HailToDodongo/tiny3d  
+- **Tiny3D** — MIT — https://github.com/HailToDodongo/tiny3d (copyright Max Bebök)  
 - **Fast64**, **Blender**, **Ares** — see their projects  
 
 ## Contributing

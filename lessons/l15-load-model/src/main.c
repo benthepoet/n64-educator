@@ -9,22 +9,42 @@
  *   BUILD TIME:  assets/model.glb → gltf_to_t3d → filesystem/model.t3dm
  *                (+ textures as .sprite)
  *   RUN TIME:    dfs_init → t3d_model_load("rom:/model.t3dm")
- *                → t3d_model_draw (or record into a display list)
+ *                → record t3d_model_draw into an rspq block → run each frame
+ *
+ * MATRIX + DISPLAY LIST (important!)
+ * ----------------------------------
+ * When you *record* a model into an rspq block, match Tiny3D’s pattern:
+ *
+ *   1. Each frame:  t3d_matrix_push(&modelMat)
+ *   2. Then:        rspq_block_run(dpl)   // block contains draw + matrix_pop
+ *
+ * The recorded block must end with t3d_matrix_pop(1) so the push is balanced.
+ * Using only t3d_matrix_set before a recorded block (without push/pop) leaves
+ * the model with no usable world matrix — you get clear color + HUD text but
+ * an invisible mesh (the bug this lesson used to have).
  *
  * MATRIX BUFFERING
  * ----------------
- * We keep one T3DMat4FP per framebuffer index and rotate the index each frame
- * so the CPU never overwrites a matrix the RSP still needs.
+ * One T3DMat4FP per framebuffer index; rotate the index each frame so the CPU
+ * never overwrites a matrix the RSP still needs.
  *
  * DOCS: docs/guide/m2/l15-load-model.md
  */
-
 
 #include <libdragon.h>
 #include <t3d/t3d.h>
 #include <t3d/t3dmodel.h>
 
 #define FB_COUNT 3
+
+/* Sample model uses prim-color on a band — animate it so you notice motion. */
+static color_t rainbow_color(float s)
+{
+    float r = fm_sinf(s + 0.0f) * 127.0f + 128.0f;
+    float g = fm_sinf(s + 2.0f) * 127.0f + 128.0f;
+    float b = fm_sinf(s + 4.0f) * 127.0f + 128.0f;
+    return RGBA32((int)r, (int)g, (int)b, 255);
+}
 
 int main(void)
 {
@@ -56,9 +76,13 @@ int main(void)
         }
     }
 
-    /* Record draw once; materials/textures handled inside the model format. */
+    /*
+     * Record once (lazy-style also fine). Must include matrix_pop so it pairs
+     * with t3d_matrix_push before rspq_block_run — same as Tiny3D examples/01_model.
+     */
     rspq_block_begin();
     t3d_model_draw(model);
+    t3d_matrix_pop(1);
     rspq_block_t *dpl = rspq_block_end();
 
     const fm_vec3_t camPos = {{ 0, 10.0f, 40.0f }};
@@ -84,7 +108,7 @@ int main(void)
         float modelScale = 0.1f;
         t3d_mat4fp_from_srt_euler(&modelMatFP[frameIdx],
             (float[3]){ modelScale, modelScale, modelScale },
-            (float[3]){ 0.0f, rot, 0.0f },
+            (float[3]){ 0.0f, rot * 0.2f, rot },
             (float[3]){ 0, 0, 0 });
 
         rdpq_attach(display_get(), display_get_zbuf());
@@ -98,7 +122,11 @@ int main(void)
         t3d_light_set_directional(0, colorDir, &lightDir);
         t3d_light_set_count(1);
 
-        t3d_matrix_set(&modelMatFP[frameIdx], true);
+        /* Dynamic prim color — sample mesh has a band that uses it. */
+        rdpq_set_prim_color(rainbow_color(rot * 0.42f));
+
+        /* World matrix, then run recorded draw+pop. */
+        t3d_matrix_push(&modelMatFP[frameIdx]);
         rspq_block_run(dpl);
 
         rdpq_set_mode_standard();

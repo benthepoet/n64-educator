@@ -88,7 +88,7 @@ make cove
 
 ## Status
 
-**Version:** see [`VERSION`](VERSION) (currently **1.1.0**).  
+**Version:** see [`VERSION`](VERSION) (currently **1.1.1**).  
 **Branch:** development happens on **`master`**.  
 **Docs:** https://benthepoet.github.io/n64-educator/
 
@@ -132,9 +132,11 @@ own licenses. You install them separately; this repo teaches you how.
 ## Credits
 
 - [libdragon](https://github.com/DragonMinded/libdragon) contributors  
-- [Tiny3D](https://github.com/HailToDodongo/tiny3d) — Max Bebök (HailToDodongo)  
-- [Quaternius](https://quaternius.com/) — CC0 reference character lineage  
+- [Tiny3D](https://github.com/HailToDodongo/tiny3d) — Max Bebök (HailToDodongo); sample models/textures (MIT)  
+- [Quaternius](https://quaternius.com/) — Easy Enemy / snake character (CC0)  
 - N64brew community  
+
+Full asset inventory: **[assets-src/ATTRIBUTION.md](assets-src/ATTRIBUTION.md)** · **[NOTICE](NOTICE)**
 
 ## Trademark
 

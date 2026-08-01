@@ -6,20 +6,61 @@ Copyright (c) 2026 N64 Educator contributors
 This project is open source. See LICENSE (MIT) for source code and scripts,
 and LICENSE-DOCS (CC BY 4.0) for curriculum documentation under docs/.
 
-Original course-generated art under assets-src/blender/generated is dedicated
-to the public domain under CC0 1.0 (see assets-src/ATTRIBUTION.md).
+Original course-generated art under assets-src/blender/generated (and the
+related lesson star.png / converted .t3dm props) is dedicated to the public
+domain under CC0 1.0 (see assets-src/ATTRIBUTION.md).
+
+Bundled third-party teaching assets
+-----------------------------------
+Full inventory, file names, and licenses: assets-src/ATTRIBUTION.md
+
+Summary:
+
+- Quaternius Easy Enemy (snake / player_anim lineage) — CC0 1.0
+  https://quaternius.com/packs/easyenemy.html
+
+- Tiny3D example models and textures (e.g. L15 model, map, sand/stone/shadow)
+  redistributed for teaching — MIT; copyright Max Bebök (see below and
+  assets-src/ATTRIBUTION.md)
+
+- libdragon example audio samples — Unlicense (and any notices in those
+  upstream example trees)
+
+Tiny3D (MIT) — copyright notice for redistributed example assets
+----------------------------------------------------------------
+Copyright (c) 2023 Max Bebök
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+https://github.com/HailToDodongo/tiny3d
+
+Upstream tools (not vendored as complete SDKs)
+----------------------------------------------
+- libdragon — https://github.com/DragonMinded/libdragon (Unlicense)
+- Tiny3D — https://github.com/HailToDodongo/tiny3d (MIT)
+- Fast64 — https://github.com/Fast-64/fast64 (see that project’s license)
+- Blender — https://www.blender.org/ (GPL; used as a host tool, not shipped)
+- Ares — https://github.com/ares-emulator/ares (see that project’s license)
 
 Trademarks
 ----------
 Nintendo 64 and N64 are trademarks of Nintendo. This project is not affiliated
 with or endorsed by Nintendo.
 
-Upstream dependencies (not vendored as complete SDKs)
------------------------------------------------------
-- libdragon — https://github.com/DragonMinded/libdragon (Unlicense)
-- Tiny3D — https://github.com/HailToDodongo/tiny3d (MIT)
-- Fast64 — https://github.com/Fast-64/fast64 (see that project’s license)
-- Blender — https://www.blender.org/ (GPL; used as a host tool, not shipped)
-
-Bundled third-party teaching assets are listed in assets-src/ATTRIBUTION.md.
-Always preserve those notices when redistributing.
+Always preserve assets-src/ATTRIBUTION.md and this NOTICE when redistributing.

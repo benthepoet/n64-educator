@@ -568,6 +568,7 @@ int main(void)
         if (state != ST_TITLE) {
             t3d_matrix_set(&playerMat[frame], true);
             /* Skinned draw uses the skeleton pose we updated above. */
+            t3d_skeleton_use(&skel);
             t3d_model_draw_skinned(player, &skel);
         }
 

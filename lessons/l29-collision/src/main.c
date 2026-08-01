@@ -204,6 +204,7 @@ int main(void)
             }
         }
         t3d_matrix_set(&playerMat[frame], true);
+        t3d_skeleton_use(&skel);
         t3d_model_draw_skinned(player, &skel);
 
         rdpq_set_mode_standard();

@@ -7,7 +7,7 @@
  * Fully commented game wiring lives in capstone/starshard-cove/src/main.c
  * DOCS: docs/guide/m3/checkpoint.md
  */
-\n
+
 
 #include <libdragon.h>
 #include <t3d/t3d.h>
@@ -184,6 +184,7 @@ int main(void)
         t3d_matrix_set(&modelMatFP[frameIdx], true);
         if (models[prop]) {
             if (prop == PROP_PLAYER_ANIM && hasAnim) {
+                t3d_skeleton_use(&skel);
                 t3d_model_draw_skinned(models[prop], &skel);
             } else {
                 t3d_model_draw(models[prop]);

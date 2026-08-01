@@ -119,6 +119,9 @@ int main(void)
         t3d_screen_clear_color(RGBA32(40, 20, 60, 0));
         t3d_screen_clear_depth(); /* always clear Z or you get ghosts */
 
+        /* Shade from vertex colors (+ lighting when SHADED). Without this, tris often draw black. */
+        rdpq_mode_combiner(RDPQ_COMBINER_SHADE);
+
         t3d_light_set_ambient(colorAmbient);
         t3d_light_set_directional(0, colorDir, &lightDir);
         t3d_light_set_count(1);

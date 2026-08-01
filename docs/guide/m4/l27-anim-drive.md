@@ -19,16 +19,29 @@ draw skinned
 ## What you will see
 
 ```bash
-make -C lessons/l27-anim-drive
+source scripts/env.sh
+make -C lessons/l27-anim-drive clean all
 ```
 
-Reference character walks when you push the stick; idles when you stop.
+Sandy sample map + Quaternius reference character (same lineage as Tiny3D’s
+`08_animation` example). Character **idles** when still and **blends to walk**
+as you push the stick.
+
+Clear color is warm sand (not blue) so you can tell you have a fresh ROM.
 
 ## Pitfalls
 
 - Restarting a walk clip every frame → jitter; let it loop  
 - Forgetting `t3d_skeleton_update` after blend  
 - Zero `dt` if you pause wrong  
+- **`ASSERTION FAILED: File not found: player_anim.2.sdata`** — animation streams (`.sdata`) must be on the ROM **and** the `.t3dm` must reference them as `rom:/player_anim.N.sdata`. That only happens if `gltf_to_t3d` is run with an output path under `filesystem/` (our `common/lesson.mk` does this). Rebuild from a clean lesson tree:
+
+  ```bash
+  source scripts/env.sh
+  make -C lessons/l27-anim-drive clean all
+  ```
+
+  If you convert models by hand, use e.g. `gltf_to_t3d model.glb filesystem/model.t3dm` — not `gltf_to_t3d model.glb model.t3dm` (bare paths break `asset_fopen`).
 
 
 ## Full lesson source

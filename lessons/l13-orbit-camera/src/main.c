@@ -6,7 +6,7 @@
  * Stick changes yaw/pitch; C-up/dn changes dist; look_at builds the view matrix.
  * DOCS: docs/guide/m2/l13-orbit-camera.md
  */
-\n
+
 
 #include <libdragon.h>
 #include <t3d/t3d.h>
@@ -115,6 +115,9 @@ int main(void)
         t3d_viewport_attach(&viewport);
         t3d_screen_clear_color(RGBA32(25, 35, 55, 0));
         t3d_screen_clear_depth();
+
+        /* Shade from vertex colors (+ lighting when SHADED). Without this, tris often draw black. */
+        rdpq_mode_combiner(RDPQ_COMBINER_SHADE);
 
         t3d_light_set_ambient(ambient);
         t3d_light_set_directional(0, dirCol, &lightDir);
