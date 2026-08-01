@@ -20,7 +20,8 @@ We are not writing a physics engine.
 make -C lessons/l29-collision
 ```
 
-Three bobbing starshards; walk into them to collect.
+Three bobbing starshards; walk into them to collect. Same island/snake/shard
+**scales** and **push/pop** draw pattern as L28.
 
 
 ## Full lesson source

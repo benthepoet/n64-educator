@@ -62,10 +62,15 @@ rspq_block_run(dpl);
 
 Materials and texture binds are largely **inside** the model format — less manual RDP than L04 sprites.
 
-::: warning Recorded draws need push + pop
-If you record `t3d_model_draw` into an `rspq` block, use **`t3d_matrix_push`** before `rspq_block_run` and **`t3d_matrix_pop(1)`** inside the recorded block (Tiny3D `examples/01_model`).
+::: warning Matrix stack: push/pop, not set-over-camera
+**Recorded model draw (this lesson):** record `t3d_model_draw` + `t3d_matrix_pop(1)` in
+the block; each frame `t3d_matrix_push(&modelMat)` then `rspq_block_run` (Tiny3D
+`examples/01_model`).
 
-`t3d_matrix_set` + immediate `t3d_model_draw` is fine for live draws (later lessons). Mixing `matrix_set` with a recorded block often gives a **blank mesh** on a correct clear color — text still works.
+**Live draws (Module 4+):** same idea — `t3d_matrix_push(modelMat)` →
+`t3d_model_draw` / `vert_load` → `t3d_matrix_pop(1)`.  
+Do **not** use `t3d_matrix_set` in place of push after `viewport_attach`: it can
+overwrite the camera matrix → **blank mesh**, clear color + HUD still fine.
 :::
 
 ### Matrix buffering

@@ -51,7 +51,10 @@ Starshard Cove will be a list of entities (player, shards, island), each with a 
 
 - `T3D_FLAG_DEPTH` — enable depth testing/writing for draws.  
 - Always **clear depth** each frame (`t3d_screen_clear_depth`) or you’ll see ghosts.  
-- `t3d_matrix_set(mat, true)` — set current model matrix for following verts.  
+- **Per object:** `t3d_matrix_push(modelMat)` → `t3d_vert_load` → `t3d_matrix_pop(1)` → tris.  
+  `viewport_attach` leaves the **camera** matrix on the stack; **push** multiplies your
+  model with it. Using `t3d_matrix_set` instead can **overwrite** the camera and you get
+  only the clear color (text may still work).  
 - `rdpq_mode_combiner(RDPQ_COMBINER_SHADE)` — required for hand-built colored tris (same as L11).
 
 ---
@@ -63,6 +66,7 @@ Starshard Cove will be a list of entities (player, shards, island), each with a 
 | “Depth is optional decoration” | It’s how 3D stays coherent |
 | “I must sort all triangles” | Z-buffer handles most cases; transparency is the hard leftover |
 | “Z-fighting flicker” | Two surfaces same depth — separate them or bias later |
+| “Blue/purple clear, no quads” | Matrix stack: use **push/pop**, not `matrix_set` over the camera |
 
 ---
 

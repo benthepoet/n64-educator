@@ -8,13 +8,29 @@ Keep the whole course consistent so assets and code plug together.
 |------------|--------|
 | World up | **+Y** |
 | Typical forward | **−Z** or **+Z** — match Tiny3D examples; document in first 3D lesson and stick to it |
-| Scale | **1.0 ≈ 1 meter** for human-scale props; player ~1.5–2.0 tall |
+| Gameplay scale | **1.0 ≈ 1 meter** for human-scale props; player ~1.5–2.0 tall |
+| Course `t3dm` scales | Raw verts are large integers; ROMs apply e.g. island **~0.032**, snake **~0.02**, starshard **~0.02** so the world fits a ~12-unit island and a short follow cam |
 | Angles in course math notes | Degrees in prose; radians in C when APIs require |
+
+## Tiny3D matrix stack
+
+After `t3d_viewport_attach`, the stack holds the **camera**. Per object:
+
+```text
+t3d_matrix_push(modelMat);
+t3d_model_draw(...) / vert_load(...);
+t3d_matrix_pop(1);
+```
+
+Avoid `t3d_matrix_set` in that slot unless you fully understand the stack — a common
+failure mode is clear color + HUD text with no 3D.
+
+Buffered skeletons: `t3d_skeleton_use(&skel)` before `t3d_model_draw_skinned`.
 
 ## Player / camera (capstone)
 
 - Follow camera sits behind and above the player
-- Move is camera-relative on the XZ plane
+- Move is camera-relative on the XZ plane (stick-up = into the scene)
 - Kill plane well below the island
 
 ## Textures

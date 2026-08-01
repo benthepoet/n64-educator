@@ -20,7 +20,12 @@ C-left/right adds an **orbit** offset so you can peek.
 make -C lessons/l28-follow-cam
 ```
 
-Camera trails; movement stays camera-relative including orbit.
+Camera trails; movement stays camera-relative including orbit (stick-up = into
+scene, same math as L26).
+
+Uses **skinned** `player_anim` (scale ~**0.02** on the course island) with
+`t3d_skeleton_use` before `t3d_model_draw_skinned`, and **push/pop** for island
+and player matrices.
 
 
 ## Full lesson source

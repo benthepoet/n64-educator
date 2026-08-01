@@ -21,7 +21,11 @@ Juice = feedback that says “your input mattered” without new systems:
 make -C lessons/l34-juice
 ```
 
-Screen brightens briefly when you grab a shard.
+Screen brightens briefly when you grab a shard. Full loop: title → play (island +
+snake + 3 shards) → audio/HUD → win.
+
+Same draw/audio rules as earlier modules: **`audio_init(48000)`**, island/snake/
+shard **scales**, **push/pop** matrices, **`t3d_skeleton_use`** before skinned draw.
 
 ## Performance note
 

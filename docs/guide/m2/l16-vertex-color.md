@@ -72,7 +72,7 @@ Re-loading many small batches per frame is fine for a teaching grid, not for a f
 | Feeling | Reality |
 |---------|---------|
 | “I need a texture to see color” | Vertex color alone is enough (L16 proves it) |
-| “Terrain is black” | Missing `RDPQ_COMBINER_SHADE`, or matrix not set before `vert_load` |
+| “Terrain is black” | Missing `RDPQ_COMBINER_SHADE`, or forgot `matrix_push` before `vert_load` |
 | “Paint is lighting” | Lighting still applies; paint multiplies with it |
 | “Blender is required for vertex color” | No — but artists *prefer* painting there (Module 3) |
 

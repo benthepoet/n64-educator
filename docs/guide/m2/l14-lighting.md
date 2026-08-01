@@ -61,12 +61,16 @@ White vertices show lighting clearly. Dark vertex paint (L16) multiplies on top 
 
 ## Common noob confusions
 
+Draw pattern matches L12/L13: **`matrix_push` → `vert_load` → `matrix_pop` → tris**, and
+`RDPQ_COMBINER_SHADE`.
+
 | Feeling | Reality |
 |---------|---------|
 | “Light position” | Directional lights have **direction**, not a point in space (point lights come later) |
 | “Ambient 0 is realistic” | Often too harsh for N64 readability; keep a little fill |
 | “Normals optional” | Without them, directional lighting can’t work |
 | “Mesh is pure black” | Check `RDPQ_COMBINER_SHADE` and ambient; shade × light can crush color |
+| “No mesh at all” | Check push/pop vs `matrix_set` (camera stack) |
 
 ---
 

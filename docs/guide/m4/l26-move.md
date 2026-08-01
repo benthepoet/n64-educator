@@ -19,7 +19,15 @@ Stick left/right/up/down should feel like “strafe / forward” based on where 
 make -C lessons/l26-move
 ```
 
-Static player on painted island. Stick moves; soft wall keeps you on the mesh-ish disk.
+Blockout **player_static** on the painted **island**. Stick moves; soft wall keeps
+you near the mesh.
+
+### Course mesh scales (important)
+
+`island.t3dm` stores large integer verts (~±384). The ROM uses **scale ≈ 0.032** so
+the island is ~12 world units. `player_static` uses a small scale (~0.08) so the
+character matches. If you load these `.t3dm` files at scale `1,1,1`, the camera
+will look empty (clear color + text only).
 
 ## Key idea: camera-relative
 
@@ -34,8 +42,18 @@ mz = -sx * sin(θ) - sy * cos(θ)
 position += (mx, mz) * speed * dt
 ```
 
-If up/down feel inverted, the sign on `sy` is wrong (that was a real course bug
-fixed in v1.1.2).
+If up/down feel inverted, the sign on `sy` is wrong (fixed in v1.1.2).
+
+## Draw pattern
+
+```c
+t3d_matrix_push(islandMat);
+t3d_model_draw(island);
+t3d_matrix_pop(1);
+t3d_matrix_push(&playerMat[frame]);
+t3d_model_draw(player);
+t3d_matrix_pop(1);
+```
 
 ## Exercises
 

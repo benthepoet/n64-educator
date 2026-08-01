@@ -54,7 +54,19 @@ Starshard Cove’s follow camera is “orbit-ish” but **target = player**, and
 - **far** too small → horizon clips  
 - **FOV** wider → more scene, more distortion  
 
-Units should match your world scale (course: ~1 unit ≈ 1 meter-ish).
+Units should match your world scale (course gameplay: ~1 unit ≈ 1 meter-ish on the
+**scaled** island; raw `t3dm` integer units are larger — see Module 4 scale notes).
+
+## Draw pattern (this ROM)
+
+```c
+t3d_matrix_push(modelMat);
+t3d_vert_load(...);   /* captures matrix for T&L */
+t3d_matrix_pop(1);
+t3d_tri_draw(...);
+```
+
+Plus `rdpq_mode_combiner(RDPQ_COMBINER_SHADE)` so vertex colors show.
 
 ---
 
@@ -65,6 +77,7 @@ Units should match your world scale (course: ~1 unit ≈ 1 meter-ish).
 | “Pitch inverted” | Stick Y sign is a preference; change the `+=` sign if you hate it |
 | “I fell under the world” | Pitch clamp — keep a minimum angle |
 | “look_at is a black box” | Eye, target, up → view matrix; same as L08 + rotation |
+| “Only clear color” | Forgot push/pop for model matrices (camera was overwritten) |
 
 ---
 

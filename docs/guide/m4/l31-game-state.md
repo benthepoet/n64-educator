@@ -21,6 +21,8 @@ Only **PLAY** runs movement and pickup logic. **PAUSE** freezes `dt` for anims. 
 make -C lessons/l31-game-state
 ```
 
+Same render stack as L30 (scaled island/player/shards, skeleton_use, matrix push/pop).
+
 
 ## Full lesson source
 

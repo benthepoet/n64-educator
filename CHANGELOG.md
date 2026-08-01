@@ -34,6 +34,17 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.1.6] — 2026-08-01
+
+### Changed
+
+- Curriculum docs re-audited against ROM code: matrix **push/pop** (not
+  `matrix_set` over the camera), course **t3dm scales**, stick-up convention,
+  skeleton_use, and 48 kHz audio notes on L12–L16, L26, L28–L31, L34, M3
+  checkpoint, Module 4 overview, and reference conventions
+
+---
+
 ## [1.1.5] — 2026-08-01
 
 ### Fixed
@@ -164,7 +175,8 @@ First public open-source release of the full curriculum.
 - Default git branch: **`master`**
 - Requires libdragon **preview** + Tiny3D (see pinned versions doc)
 
-[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.5...HEAD
+[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.6...HEAD
+[1.1.6]: https://github.com/benthepoet/n64-educator/compare/v1.1.5...v1.1.6
 [1.1.5]: https://github.com/benthepoet/n64-educator/compare/v1.1.4...v1.1.5
 [1.1.4]: https://github.com/benthepoet/n64-educator/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/benthepoet/n64-educator/compare/v1.1.2...v1.1.3

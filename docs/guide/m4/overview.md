@@ -25,6 +25,16 @@ Turn art + 3D rendering into a **small game**: move, animate, follow-cam, collid
 
 `common/include/ng_game.h` — deadzone, time, lerp, angle lerp, clamp.
 
+## Patterns that must match the ROMs
+
+| Topic | Course convention |
+|-------|-------------------|
+| Stick-up | Into the screen (camera look on XZ) — see L26 |
+| Model matrices | `push` → draw → `pop` (not `matrix_set` over the camera) |
+| Skinned player | `t3d_skeleton_use` then `t3d_model_draw_skinned` |
+| Island / snake / shard scales | ~**0.032** / **0.02** / **0.02** on course `island` (L27 sample **map** uses different units) |
+| Audio (Module 5) | `audio_init(48000)` with Opus `wav64` |
+
 ## Build
 
 ```bash

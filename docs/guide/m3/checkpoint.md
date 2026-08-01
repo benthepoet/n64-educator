@@ -20,6 +20,15 @@ make -C lessons/m3-asset-lab
 | C-up/dn | Dolly |
 | A | Idle ↔ walk blend (animated prop only) |
 
+## Scales in this lab
+
+The lab applies a **per-prop scale** so huge integer `t3dm` verts fit the camera
+(e.g. island ~0.032, `player_anim` ~0.02, starshard ~0.025). That matches Module 4
+gameplay ROMs. Viewing at scale `1` often looks empty.
+
+Animated prop: call **`t3d_skeleton_use`** before `t3d_model_draw_skinned`, and
+**`matrix_push` / `pop`** around the draw.
+
 ## Self-check
 
 - [ ] All five props appear (or you understand any missing load)  

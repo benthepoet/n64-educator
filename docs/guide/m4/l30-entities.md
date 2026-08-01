@@ -27,6 +27,9 @@ make -C lessons/l30-entities
 
 Player, shards, and a platform all come from `SPAWNS[]`.
 
+Draw still uses **one matrix push/pop per entity** (and `t3d_skeleton_use` for the
+player). Scales match L26/L28 (island ~0.032, snake ~0.02, starshard ~0.02).
+
 
 ## Full lesson source
 
