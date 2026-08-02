@@ -34,6 +34,16 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.1.10] — 2026-08-02
+
+### Added
+
+- **Author feature roadmap** (`design/feature-roadmap.md`): ranked curriculum gap
+  proposals (save data, debugging, rumble, performance, memory, fog/textures,
+  multiplayer, hardware notes) — menu for future work, not a student mandate
+
+---
+
 ## [1.1.9] — 2026-08-02
 
 ### Changed
