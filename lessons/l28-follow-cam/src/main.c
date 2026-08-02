@@ -4,8 +4,8 @@
  *
  * LEARNING GOAL
  * -------------
- * Camera sits *behind the player* (based on player yaw + optional orbit),
- * with lag so turns feel soft — not glued 1:1 to the character.
+ * Camera has its own yaw (C-orbit + soft follow when running forward), with
+ * lag so motion feels soft — not glued 1:1 to the character.
  *
  * RECIPE
  * ------
@@ -15,9 +15,11 @@
  *   look = lerp(look, desired_look, lag)
  *   t3d_viewport_look_at(eye, look, up)
  *
- * Move is still camera-relative (yaw + orbit), like a real 3rd-person game.
+ * Move is camera-relative using a *camera yaw* (C-left/right), not player yaw.
+ * If move used player yaw and the camera sat behind player yaw, pure strafe would
+ * spin the camera forever (yaw updates → camera basis updates → feedback loop).
  *
- * CONTROLS: Stick move, C-left/right orbit
+ * CONTROLS: Stick move, C-left/right orbit camera
  * DOCS: docs/guide/m4/l28-follow-cam.md
  * Also see: capstone/starshard-cove/src/main.c (CAMERA section)
  */
@@ -65,8 +67,8 @@ int main(void)
     t3d_anim_attach(&animWalk, &skelBlend);
 
     fm_vec3_t pos = {{ 0, 0.15f, 0 }};
-    float yaw = 0.f;
-    float orbit = 0.f; /* extra camera orbit around player */
+    float yaw = 0.f;     /* player facing (model) */
+    float camYaw = 0.f;  /* camera horizontal angle — NOT the same as player yaw */
     fm_vec3_t eye = {{ 0, 8, 14 }};
     fm_vec3_t look = {{ 0, 1, 0 }};
     float last = ng_time_s();
@@ -82,13 +84,20 @@ int main(void)
         joypad_inputs_t in = joypad_get_inputs(JOYPAD_PORT_1);
         float dt = ng_time_s() - last;
         last = ng_time_s();
+        if (dt < 0.f) {
+            dt = 0.f;
+        }
+        if (dt > 0.1f) {
+            dt = 0.1f;
+        }
         frame = (frame + 1) % FB_COUNT;
 
+        /* Orbit camera with C-buttons (changes camYaw only). */
         if (in.btn.c_left) {
-            orbit -= 1.2f * dt;
+            camYaw -= 1.2f * dt;
         }
         if (in.btn.c_right) {
-            orbit += 1.2f * dt;
+            camYaw += 1.2f * dt;
         }
 
         float sx = (float)ng_dz(in.stick_x) / 80.f;
@@ -100,9 +109,19 @@ int main(void)
             speed = 1.f;
         }
 
-        /* Move relative to camera facing (player yaw + orbit). */
-        float camFacing = yaw + orbit;
-        float c = fm_cosf(camFacing), s = fm_sinf(camFacing);
+        /* Move relative to lagged camera (eye→player), not player yaw / camYaw alone. */
+        float edx = eye.v[0] - pos.v[0];
+        float edz = eye.v[2] - pos.v[2];
+        float elen = sqrtf(edx * edx + edz * edz);
+        float c, s;
+        if (elen > 0.001f) {
+            float backNow = atan2f(edx, edz);
+            c = fm_cosf(backNow);
+            s = fm_sinf(backNow);
+        } else {
+            c = fm_cosf(camYaw);
+            s = fm_sinf(camYaw);
+        }
         float mx = sx * c - sy * s;
         float mz = -sx * s - sy * c;
         float blend = 0.f;
@@ -121,12 +140,11 @@ int main(void)
         t3d_skeleton_blend(&skel, &skel, &skelBlend, blend);
         t3d_skeleton_update(&skel);
 
-        /* Desired camera behind player */
-        float back = yaw + orbit;
+        /* Desired camera: sit along camYaw (behind relative to camera basis). */
         fm_vec3_t eyeWant = {{
-            pos.v[0] + fm_sinf(back) * 12.f,
+            pos.v[0] + fm_sinf(camYaw) * 12.f,
             pos.v[1] + 6.5f,
-            pos.v[2] + fm_cosf(back) * 12.f,
+            pos.v[2] + fm_cosf(camYaw) * 12.f,
         }};
         fm_vec3_t lookWant = {{ pos.v[0], pos.v[1] + 1.4f, pos.v[2] }};
         float lag = ng_clamp(10.f * dt, 0.08f, 0.4f);
@@ -142,7 +160,7 @@ int main(void)
 
         t3d_mat4fp_from_srt_euler(&playerMat[frame],
             (float[3]){ 0.02f, 0.02f, 0.02f },
-            (float[3]){ 0, yaw, 0 },
+            (float[3]){ 0.f, -yaw, 0.f },
             (float[3]){ pos.v[0], pos.v[1], pos.v[2] });
 
         rdpq_attach(display_get(), display_get_zbuf());
@@ -160,13 +178,13 @@ int main(void)
         }
         t3d_matrix_pop(1);
         t3d_skeleton_use(&skel);
-            t3d_matrix_push(&playerMat[frame]);
-            t3d_model_draw_skinned(player, &skel);
-            t3d_matrix_pop(1);
+        t3d_matrix_push(&playerMat[frame]);
+        t3d_model_draw_skinned(player, &skel);
+        t3d_matrix_pop(1);
 
         rdpq_set_mode_standard();
         rdpq_text_print(NULL, 1, 10, 12, "L28 — Follow camera");
-        rdpq_text_print(NULL, 1, 10, 28, "Stick move  C-left/right orbit lag cam");
+        rdpq_text_print(NULL, 1, 10, 28, "Stick move  C-left/right orbit  lag cam");
 
         rdpq_detach_show();
     }

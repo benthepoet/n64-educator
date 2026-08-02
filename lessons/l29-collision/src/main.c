@@ -62,6 +62,10 @@ int main(void)
     T3DModel *island = t3d_model_load("rom:/island.t3dm");
     T3DModel *player = t3d_model_load("rom:/player_anim.t3dm");
     T3DModel *shardM = t3d_model_load("rom:/starshard.t3dm");
+    /* Fail loudly (like L27/L28) if any DFS model is missing — otherwise the
+     * island/shards/player silently drop out and you get a clear blue screen. */
+    assertf(island && player && shardM,
+            "L29: failed to load island/player/shards models from ROM (DFS)");
 
     T3DSkeleton skel = t3d_skeleton_create_buffered(player, FB_COUNT);
     T3DSkeleton skelBlend = t3d_skeleton_clone(&skel, false);
@@ -79,7 +83,7 @@ int main(void)
     fm_vec3_t pos = {{ 0, 0.15f, 0 }};
     fm_vec3_t spawn = pos;
     float yaw = 0.f;
-    float orbit = 0.f;
+    float camYaw = 0.f; /* camera yaw; not player facing */
     fm_vec3_t eye = {{ 0, 8, 14 }};
     fm_vec3_t look = {{ 0, 1, 0 }};
     float last = ng_time_s();
@@ -102,10 +106,10 @@ int main(void)
         bobT += dt;
 
         if (in.btn.c_left) {
-            orbit -= 1.2f * dt;
+            camYaw -= 1.2f * dt;
         }
         if (in.btn.c_right) {
-            orbit += 1.2f * dt;
+            camYaw += 1.2f * dt;
         }
 
         float sx = (float)ng_dz(in.stick_x) / 80.f;
@@ -116,8 +120,19 @@ int main(void)
             sy /= speed;
             speed = 1.f;
         }
-        float camF = yaw + orbit;
-        float c = fm_cosf(camF), s = fm_sinf(camF);
+        /* Move relative to lagged camera (eye→player), not player yaw / camYaw alone. */
+        float edx = eye.v[0] - pos.v[0];
+        float edz = eye.v[2] - pos.v[2];
+        float elen = sqrtf(edx * edx + edz * edz);
+        float c, s;
+        if (elen > 0.001f) {
+            float backNow = atan2f(edx, edz);
+            c = fm_cosf(backNow);
+            s = fm_sinf(backNow);
+        } else {
+            c = fm_cosf(camYaw);
+            s = fm_sinf(camYaw);
+        }
         float mx = sx * c - sy * s;
         float mz = -sx * s - sy * c;
         float blend = 0.f;
@@ -125,15 +140,13 @@ int main(void)
             pos.v[0] += mx * 7.5f * dt;
             pos.v[2] += mz * 7.5f * dt;
             yaw = ng_lerp_angle(yaw, atan2f(mx, mz), 0.22f);
+
             blend = speed;
         }
 
         /* Soft wall of island */
-        float r = sqrtf(pos.v[0] * pos.v[0] + pos.v[2] * pos.v[2]);
-        if (r > 5.8f) {
-            pos.v[0] *= 5.8f / r;
-            pos.v[2] *= 5.8f / r;
-        }
+        pos.v[0] = ng_clamp(pos.v[0], -5.5f, 5.5f);
+        pos.v[2] = ng_clamp(pos.v[2], -5.5f, 5.5f);
 
         /* Kill plane — if we ever leave the mesh height badly */
         if (pos.v[1] < -2.f) {
@@ -162,7 +175,7 @@ int main(void)
         t3d_skeleton_blend(&skel, &skel, &skelBlend, blend);
         t3d_skeleton_update(&skel);
 
-        float back = yaw + orbit;
+        float back = camYaw; /* camera sits on camYaw, not player yaw */
         fm_vec3_t eyeWant = {{
             pos.v[0] + fm_sinf(back) * 12.f, pos.v[1] + 6.5f,
             pos.v[2] + fm_cosf(back) * 12.f,
@@ -178,7 +191,7 @@ int main(void)
         t3d_viewport_look_at(&viewport, &eye, &look, &(fm_vec3_t){{ 0, 1, 0 }});
         t3d_mat4fp_from_srt_euler(&playerMat[frame],
             (float[3]){ 0.02f, 0.02f, 0.02f },
-            (float[3]){ 0, yaw, 0 },
+            (float[3]){ 0.f, -yaw, 0.f }, /* snake faces -Z */
             (float[3]){ pos.v[0], pos.v[1], pos.v[2] });
 
         rdpq_attach(display_get(), display_get_zbuf());

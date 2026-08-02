@@ -74,6 +74,8 @@ int main(void)
     T3DModel *island = t3d_model_load("rom:/island.t3dm");
     T3DModel *player = t3d_model_load("rom:/player_anim.t3dm");
     T3DModel *shardM = t3d_model_load("rom:/starshard.t3dm");
+    assertf(island && player && shardM,
+            "L31: failed to load island/player/starshard from ROM (DFS)");
 
     T3DSkeleton skel = t3d_skeleton_create_buffered(player, FB_COUNT);
     T3DSkeleton skelBlend = t3d_skeleton_clone(&skel, false);
@@ -94,7 +96,7 @@ int main(void)
 
     GameState state = ST_TITLE;
     fm_vec3_t pos = {{ 0, 0.15f, 0 }};
-    float yaw = 0.f, orbit = 0.f;
+    float yaw = 0.f, camYaw = 0.f;
     fm_vec3_t eye = {{ 0, 8, 14 }}, look = {{ 0, 1, 0 }};
     float last = ng_time_s();
     int frame = 0, collected = 0;
@@ -112,6 +114,12 @@ int main(void)
         joypad_inputs_t in = joypad_get_inputs(JOYPAD_PORT_1);
         float dt = ng_time_s() - last;
         last = ng_time_s();
+        if (dt < 0.f) {
+            dt = 0.f;
+        }
+        if (dt > 0.1f) {
+            dt = 0.1f;
+        }
         frame = (frame + 1) % FB_COUNT;
         t += dt;
 
@@ -120,6 +128,9 @@ int main(void)
             state = ST_PLAY;
             collected = 0;
             pos = (fm_vec3_t){{ 0, 0.15f, 0 }};
+            yaw = camYaw = 0.f;
+            eye = (fm_vec3_t){{ 0, 8, 14 }};
+            look = (fm_vec3_t){{ 0, 1, 0 }};
             for (int i = 0; i < SHARD_N; i++) {
                 shards[i].alive = true;
             }
@@ -134,10 +145,10 @@ int main(void)
         float blend = 0.f;
         if (state == ST_PLAY) {
             if (in.btn.c_left) {
-                orbit -= 1.2f * dt;
+                camYaw -= 1.2f * dt;
             }
             if (in.btn.c_right) {
-                orbit += 1.2f * dt;
+                camYaw += 1.2f * dt;
             }
             float sx = (float)ng_dz(in.stick_x) / 80.f;
             float sy = (float)ng_dz(in.stick_y) / 80.f;
@@ -147,8 +158,19 @@ int main(void)
                 sy /= speed;
                 speed = 1.f;
             }
-            float camF = yaw + orbit;
-            float c = fm_cosf(camF), s = fm_sinf(camF);
+            /* Move relative to lagged camera (eye→player), not player yaw. */
+            float edx = eye.v[0] - pos.v[0];
+            float edz = eye.v[2] - pos.v[2];
+            float elen = sqrtf(edx * edx + edz * edz);
+            float c, s;
+            if (elen > 0.001f) {
+                float backNow = atan2f(edx, edz);
+                c = fm_cosf(backNow);
+                s = fm_sinf(backNow);
+            } else {
+                c = fm_cosf(camYaw);
+                s = fm_sinf(camYaw);
+            }
             float mx = sx * c - sy * s;
             float mz = -sx * s - sy * c;
             if (speed > 0.15f) {
@@ -157,11 +179,8 @@ int main(void)
                 yaw = ng_lerp_angle(yaw, atan2f(mx, mz), 0.22f);
                 blend = speed;
             }
-            float rr = sqrtf(pos.v[0] * pos.v[0] + pos.v[2] * pos.v[2]);
-            if (rr > 5.8f) {
-                pos.v[0] *= 5.8f / rr;
-                pos.v[2] *= 5.8f / rr;
-            }
+            pos.v[0] = ng_clamp(pos.v[0], -5.5f, 5.5f);
+            pos.v[2] = ng_clamp(pos.v[2], -5.5f, 5.5f);
             for (int i = 0; i < SHARD_N; i++) {
                 if (shards[i].alive && dist_xz(pos, shards[i].pos) < 1.1f) {
                     shards[i].alive = false;
@@ -173,7 +192,7 @@ int main(void)
             }
         }
 
-        /* Anims still tick lightly so idle breathes on title */
+        /* Anims still tick so idle breathes on title */
         float animDt = (state == ST_PAUSE) ? 0.f : dt;
         t3d_anim_update(&animIdle, animDt);
         t3d_anim_set_speed(&animWalk, 0.2f + blend);
@@ -181,15 +200,23 @@ int main(void)
         t3d_skeleton_blend(&skel, &skel, &skelBlend, blend);
         t3d_skeleton_update(&skel);
 
-        float back = yaw + orbit;
-        fm_vec3_t eyeWant = {{
-            pos.v[0] + fm_sinf(back) * 12.f, pos.v[1] + 6.5f,
-            pos.v[2] + fm_cosf(back) * 12.f,
-        }};
-        fm_vec3_t lookWant = {{ pos.v[0], pos.v[1] + 1.3f, pos.v[2] }};
+        /* Camera: follow in play; slow orbit showcase on title */
+        fm_vec3_t eyeWant;
+        fm_vec3_t lookWant;
         if (state == ST_TITLE) {
-            eyeWant = (fm_vec3_t){{ fm_sinf(t * 0.3f) * 14.f, 9.f, fm_cosf(t * 0.3f) * 14.f }};
-            lookWant = (fm_vec3_t){{ 0, 0.5f, 0 }};
+            eyeWant = (fm_vec3_t){{
+                fm_sinf(t * 0.35f) * 16.f,
+                10.f,
+                fm_cosf(t * 0.35f) * 16.f,
+            }};
+            lookWant = (fm_vec3_t){{ 0, 0.8f, 0 }};
+        } else {
+            eyeWant = (fm_vec3_t){{
+                pos.v[0] + fm_sinf(camYaw) * 12.f,
+                pos.v[1] + 6.5f,
+                pos.v[2] + fm_cosf(camYaw) * 12.f,
+            }};
+            lookWant = (fm_vec3_t){{ pos.v[0], pos.v[1] + 1.3f, pos.v[2] }};
         }
         float lag = ng_clamp(10.f * dt, 0.08f, 0.4f);
         for (int k = 0; k < 3; k++) {
@@ -199,51 +226,50 @@ int main(void)
 
         t3d_viewport_set_projection(&viewport, T3D_DEG_TO_RAD(58.f), 1.f, 200.f);
         t3d_viewport_look_at(&viewport, &eye, &look, &(fm_vec3_t){{ 0, 1, 0 }});
+
         t3d_mat4fp_from_srt_euler(&playerMat[frame],
             (float[3]){ 0.02f, 0.02f, 0.02f },
-            (float[3]){ 0, yaw, 0 },
+            (float[3]){ 0.f, -yaw, 0.f }, /* snake faces -Z */
             (float[3]){ pos.v[0], pos.v[1], pos.v[2] });
         for (int i = 0; i < SHARD_N; i++) {
             if (!shards[i].alive) {
                 continue;
             }
             float bob = fm_sinf(t * 3.f + i) * 0.12f;
+            float sc = 0.02f;
             t3d_mat4fp_from_srt_euler(shards[i].mat,
-                (float[3]){ 0.02f, 0.02f, 0.02f },
-                (float[3]){ 0, t + i, 0 },
+                (float[3]){ sc, sc, sc },
+                (float[3]){ 0.2f, t + i, 0.1f },
                 (float[3]){ shards[i].pos.v[0], shards[i].pos.v[1] + bob, shards[i].pos.v[2] });
         }
 
         rdpq_attach(display_get(), display_get_zbuf());
         t3d_frame_start();
         t3d_viewport_attach(&viewport);
-        t3d_screen_clear_color(RGBA32(20, 40, 80, 0xFF));
+        t3d_screen_clear_color(RGBA32(25, 55, 100, 0xFF));
         t3d_screen_clear_depth();
         t3d_light_set_ambient(amb);
         t3d_light_set_directional(0, dirC, &ldir);
         t3d_light_set_count(1);
 
         t3d_matrix_push(islandMat);
-        if (island) {
-            t3d_model_draw(island);
-        }
+        t3d_model_draw(island);
         t3d_matrix_pop(1);
+
         for (int i = 0; i < SHARD_N; i++) {
             if (!shards[i].alive) {
                 continue;
             }
             t3d_matrix_push(shards[i].mat);
-            if (shardM) {
-                t3d_model_draw(shardM);
-            }
+            t3d_model_draw(shardM);
             t3d_matrix_pop(1);
         }
-        if (state != ST_TITLE) {
-            t3d_skeleton_use(&skel);
-            t3d_matrix_push(&playerMat[frame]);
-            t3d_model_draw_skinned(player, &skel);
-            t3d_matrix_pop(1);
-        }
+
+        /* Always draw player (idle on title too) so the scene is never empty. */
+        t3d_skeleton_use(&skel);
+        t3d_matrix_push(&playerMat[frame]);
+        t3d_model_draw_skinned(player, &skel);
+        t3d_matrix_pop(1);
 
         rdpq_set_mode_standard();
         rdpq_text_print(NULL, 1, 10, 12, "L31 — Game state");

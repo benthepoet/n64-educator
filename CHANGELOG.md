@@ -34,6 +34,27 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.1.8] — 2026-08-02
+
+### Fixed
+
+- **Camera spin / stick feedback:** decouple `camYaw` from player facing; move
+  relative to the lagged camera (eye→player), not `yaw + orbit` — L28–L31, L33,
+  L34, Toy Cove, capstone
+- **Remove soft-follow of camYaw toward player yaw** (angles ~π apart → continuous
+  spin when running “forward”)
+- **Box soft-walls** instead of radial clamp (radial skated along the rim) on
+  L30–L31 and siblings
+- **Snake facing:** model yaw is `-yaw` (mesh faces −Z) so left/right match stick
+- **L31 title scene:** always draw island, shards, and idle player; assert DFS
+  model loads; clamp dt; title orbit showcase
+
+### Changed
+
+- **Docs:** L28 follow-cam and L30 entities notes match the camera/move basis
+
+---
+
 ## [1.1.7] — 2026-08-02
 
 ### Fixed

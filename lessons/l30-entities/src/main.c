@@ -111,7 +111,7 @@ int main(void)
         }
     }
 
-    float orbit = 0.f;
+    float camYaw = 0.f; /* camera yaw; not player facing */
     fm_vec3_t eye = {{ 0, 8, 14 }};
     fm_vec3_t look = {{ 0, 1, 0 }};
     float last = ng_time_s();
@@ -130,15 +130,22 @@ int main(void)
         joypad_inputs_t in = joypad_get_inputs(JOYPAD_PORT_1);
         float dt = ng_time_s() - last;
         last = ng_time_s();
+        if (dt < 0.f) {
+            dt = 0.f;
+        }
+        if (dt > 0.1f) {
+            dt = 0.1f;
+        }
         frame = (frame + 1) % FB_COUNT;
         t += dt;
 
         Entity *pl = &ents[playerIdx];
+        /* C-buttons only change *desired* camera yaw — never player facing. */
         if (in.btn.c_left) {
-            orbit -= 1.2f * dt;
+            camYaw -= 1.2f * dt;
         }
         if (in.btn.c_right) {
-            orbit += 1.2f * dt;
+            camYaw += 1.2f * dt;
         }
 
         float sx = (float)ng_dz(in.stick_x) / 80.f;
@@ -149,8 +156,24 @@ int main(void)
             sy /= speed;
             speed = 1.f;
         }
-        float camF = pl->yaw + orbit;
-        float c = fm_cosf(camF), s = fm_sinf(camF);
+
+        /*
+         * Move relative to the *actual* camera (lagged eye → player), not camYaw
+         * and not player yaw. Stick-up always matches what's on screen.
+         * (Using player yaw for the move basis causes continuous spin.)
+         */
+        float edx = eye.v[0] - pl->pos.v[0];
+        float edz = eye.v[2] - pl->pos.v[2];
+        float elen = sqrtf(edx * edx + edz * edz);
+        float c, s;
+        if (elen > 0.001f) {
+            float backNow = atan2f(edx, edz);
+            c = fm_cosf(backNow);
+            s = fm_sinf(backNow);
+        } else {
+            c = fm_cosf(camYaw);
+            s = fm_sinf(camYaw);
+        }
         float mx = sx * c - sy * s;
         float mz = -sx * s - sy * c;
         float blend = 0.f;
@@ -160,11 +183,9 @@ int main(void)
             pl->yaw = ng_lerp_angle(pl->yaw, atan2f(mx, mz), 0.22f);
             blend = speed;
         }
-        float rr = sqrtf(pl->pos.v[0] * pl->pos.v[0] + pl->pos.v[2] * pl->pos.v[2]);
-        if (rr > 5.8f) {
-            pl->pos.v[0] *= 5.8f / rr;
-            pl->pos.v[2] *= 5.8f / rr;
-        }
+        /* Box soft-wall (not radial) — radial clamp skates you around the rim. */
+        pl->pos.v[0] = ng_clamp(pl->pos.v[0], -5.5f, 5.5f);
+        pl->pos.v[2] = ng_clamp(pl->pos.v[2], -5.5f, 5.5f);
 
         for (int i = 0; i < entCount; i++) {
             Entity *e = &ents[i];
@@ -183,7 +204,7 @@ int main(void)
         t3d_skeleton_blend(&skel, &skel, &skelBlend, blend);
         t3d_skeleton_update(&skel);
 
-        float back = pl->yaw + orbit;
+        float back = camYaw; /* camera sits on camYaw, not player yaw */
         fm_vec3_t eyeWant = {{
             pl->pos.v[0] + fm_sinf(back) * 12.f, pl->pos.v[1] + 6.5f,
             pl->pos.v[2] + fm_cosf(back) * 12.f,
@@ -207,7 +228,7 @@ int main(void)
             if (e->type == ENT_PLAYER) {
                 t3d_mat4fp_from_srt_euler(&playerMats[frame],
                     (float[3]){ 0.02f, 0.02f, 0.02f },
-                    (float[3]){ 0, e->yaw, 0 },
+                    (float[3]){ 0.f, -e->yaw, 0.f },
                     (float[3]){ e->pos.v[0], e->pos.v[1], e->pos.v[2] });
             } else if (e->type == ENT_SHARD) {
                 float bob = fm_sinf(t * 3.f + i) * 0.12f;

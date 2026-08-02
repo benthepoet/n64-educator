@@ -267,7 +267,7 @@ int main(void)
 
     fm_vec3_t pos = {{ 0, 0.15f, 0 }}; /* player feet position (y slightly above ground) */
     float yaw = 0.f;   /* which way the player faces (radians, around Y) */
-    float orbit = 0.f; /* extra camera orbit offset from C-left/right */
+    float camYaw = 0.f; /* camera yaw (C-orbit); independent of player facing */
 
     /* Smooth camera state (lerped toward targets each frame). */
     fm_vec3_t eye = {{ 0, 8, 14 }};
@@ -332,7 +332,7 @@ int main(void)
             collected = 0;
             playTime = 0.f;
             pos = (fm_vec3_t){{ 0, 0.15f, 0 }};
-            yaw = orbit = 0.f;
+            yaw = camYaw = 0.f;
             for (int i = 0; i < SHARD_N; i++) {
                 shards[i].alive = true;
                 shards[i].pop = 0.f;
@@ -377,17 +377,17 @@ int main(void)
 
             /* Optional camera orbit (does not turn the player by itself). */
             if (in.btn.c_left) {
-                orbit -= 1.3f * dt;
+                camYaw -= 1.3f * dt;
             }
             if (in.btn.c_right) {
-                orbit += 1.3f * dt;
+                camYaw += 1.3f * dt;
             }
 
             /*
              * Stick → camera-relative move (Module 4 L26)
              * -------------------------------------------
              * Stick X/Y are roughly -80..80. Normalize to about -1..1.
-             * Then rotate by (player yaw + orbit) so “stick up” means
+             * Then rotate by (camera yaw (camYaw)) so “stick up” means
              * “into the screen from the camera’s point of view.”
              */
             float sx = (float)ng_dz(in.stick_x) / 80.f;
@@ -399,10 +399,19 @@ int main(void)
                 speed = 1.f;
             }
 
-            float camF = yaw + orbit;
-            float c = fm_cosf(camF);
-            float s = fm_sinf(camF);
-            /* Map stick into world XZ */
+/* Move relative to lagged camera (eye→player), not player yaw. */
+            float edx = eye.v[0] - pos.v[0];
+            float edz = eye.v[2] - pos.v[2];
+            float elen = sqrtf(edx * edx + edz * edz);
+            float c, s;
+            if (elen > 0.001f) {
+                float backNow = atan2f(edx, edz);
+                c = fm_cosf(backNow);
+                s = fm_sinf(backNow);
+            } else {
+                c = fm_cosf(camYaw);
+                s = fm_sinf(camYaw);
+            }
             float mx = sx * c - sy * s;
             float mz = -sx * s - sy * c;
 
@@ -411,6 +420,7 @@ int main(void)
                 pos.v[2] += mz * MOVE_SPEED * dt;
                 /* Face movement direction (smoothly). */
                 yaw = ng_lerp_angle(yaw, atan2f(mx, mz), 0.22f);
+
                 blend = speed; /* drive walk animation amount */
             }
 
@@ -418,11 +428,8 @@ int main(void)
              * Soft wall: keep player inside a cylinder roughly matching the island.
              * Not real mesh collision — good enough for this mini-game.
              */
-            float rr = sqrtf(pos.v[0] * pos.v[0] + pos.v[2] * pos.v[2]);
-            if (rr > 5.8f) {
-                pos.v[0] *= 5.8f / rr;
-                pos.v[2] *= 5.8f / rr;
-            }
+            pos.v[0] = ng_clamp(pos.v[0], -5.5f, 5.5f);
+            pos.v[2] = ng_clamp(pos.v[2], -5.5f, 5.5f);
 
             /* Sphere-ish pickups in XZ (Module 4 L29). */
             for (int i = 0; i < SHARD_N; i++) {
@@ -472,7 +479,7 @@ int main(void)
         /* CAMERA — third-person follow with lag (Module 4 L28)               */
         /* ------------------------------------------------------------------ */
 
-        float back = yaw + orbit;
+        float back = camYaw; /* camera sits on camYaw, not player yaw */
         fm_vec3_t eyeWant = {{
             pos.v[0] + fm_sinf(back) * 12.f, /* behind player */
             pos.v[1] + 6.5f,                 /* above */
@@ -507,7 +514,7 @@ int main(void)
         /* Player model matrix: small scale, face yaw, sit at pos. */
         t3d_mat4fp_from_srt_euler(&playerMat[frame],
             (float[3]){ 0.02f, 0.02f, 0.02f },
-            (float[3]){ 0, yaw, 0 },
+            (float[3]){ 0.f, -yaw, 0.f }, /* snake faces -Z */
             (float[3]){ pos.v[0], pos.v[1], pos.v[2] });
 
         /* Shard matrices: bob + spin for readability (Module 5 juice). */

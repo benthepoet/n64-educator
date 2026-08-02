@@ -94,7 +94,7 @@ int main(void)
 
     GameState state = ST_TITLE;
     fm_vec3_t pos = {{ 0, 0.15f, 0 }};
-    float yaw = 0.f, orbit = 0.f;
+    float yaw = 0.f, camYaw = 0.f;
     fm_vec3_t eye = {{ 0, 8, 14 }}, look = {{ 0, 1, 0 }};
     float last = ng_time_s();
     int frame = 0, collected = 0;
@@ -134,10 +134,10 @@ int main(void)
         float blend = 0.f;
         if (state == ST_PLAY) {
             if (in.btn.c_left) {
-                orbit -= 1.2f * dt;
+                camYaw -= 1.2f * dt;
             }
             if (in.btn.c_right) {
-                orbit += 1.2f * dt;
+                camYaw += 1.2f * dt;
             }
             float sx = (float)ng_dz(in.stick_x) / 80.f;
             float sy = (float)ng_dz(in.stick_y) / 80.f;
@@ -147,21 +147,30 @@ int main(void)
                 sy /= speed;
                 speed = 1.f;
             }
-            float camF = yaw + orbit;
-            float c = fm_cosf(camF), s = fm_sinf(camF);
+/* Move relative to lagged camera (eye→player), not player yaw. */
+            float edx = eye.v[0] - pos.v[0];
+            float edz = eye.v[2] - pos.v[2];
+            float elen = sqrtf(edx * edx + edz * edz);
+            float c, s;
+            if (elen > 0.001f) {
+                float backNow = atan2f(edx, edz);
+                c = fm_cosf(backNow);
+                s = fm_sinf(backNow);
+            } else {
+                c = fm_cosf(camYaw);
+                s = fm_sinf(camYaw);
+            }
             float mx = sx * c - sy * s;
             float mz = -sx * s - sy * c;
             if (speed > 0.15f) {
                 pos.v[0] += mx * 7.5f * dt;
                 pos.v[2] += mz * 7.5f * dt;
                 yaw = ng_lerp_angle(yaw, atan2f(mx, mz), 0.22f);
+
                 blend = speed;
             }
-            float rr = sqrtf(pos.v[0] * pos.v[0] + pos.v[2] * pos.v[2]);
-            if (rr > 5.8f) {
-                pos.v[0] *= 5.8f / rr;
-                pos.v[2] *= 5.8f / rr;
-            }
+            pos.v[0] = ng_clamp(pos.v[0], -5.5f, 5.5f);
+            pos.v[2] = ng_clamp(pos.v[2], -5.5f, 5.5f);
             for (int i = 0; i < SHARD_N; i++) {
                 if (shards[i].alive && dist_xz(pos, shards[i].pos) < 1.1f) {
                     shards[i].alive = false;
@@ -181,7 +190,7 @@ int main(void)
         t3d_skeleton_blend(&skel, &skel, &skelBlend, blend);
         t3d_skeleton_update(&skel);
 
-        float back = yaw + orbit;
+        float back = camYaw; /* camera sits on camYaw, not player yaw */
         fm_vec3_t eyeWant = {{
             pos.v[0] + fm_sinf(back) * 12.f, pos.v[1] + 6.5f,
             pos.v[2] + fm_cosf(back) * 12.f,
@@ -201,7 +210,7 @@ int main(void)
         t3d_viewport_look_at(&viewport, &eye, &look, &(fm_vec3_t){{ 0, 1, 0 }});
         t3d_mat4fp_from_srt_euler(&playerMat[frame],
             (float[3]){ 0.02f, 0.02f, 0.02f },
-            (float[3]){ 0, yaw, 0 },
+            (float[3]){ 0.f, -yaw, 0.f }, /* snake faces -Z */
             (float[3]){ pos.v[0], pos.v[1], pos.v[2] });
         for (int i = 0; i < SHARD_N; i++) {
             if (!shards[i].alive) {
