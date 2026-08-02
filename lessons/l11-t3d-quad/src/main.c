@@ -116,7 +116,7 @@ int main(void)
         t3d_frame_start();
         t3d_viewport_attach(&viewport);
 
-        t3d_screen_clear_color(RGBA32(40, 20, 60, 0));
+        t3d_screen_clear_color(RGBA32(40, 20, 60, 0xFF));
         t3d_screen_clear_depth(); /* always clear Z or you get ghosts */
 
         /* Shade from vertex colors (+ lighting when SHADED). Without this, tris often draw black. */

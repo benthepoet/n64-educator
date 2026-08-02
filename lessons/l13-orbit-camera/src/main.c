@@ -113,7 +113,7 @@ int main(void)
         rdpq_attach(display_get(), display_get_zbuf());
         t3d_frame_start();
         t3d_viewport_attach(&viewport);
-        t3d_screen_clear_color(RGBA32(25, 35, 55, 0));
+        t3d_screen_clear_color(RGBA32(25, 35, 55, 0xFF));
         t3d_screen_clear_depth();
 
         /* Shade from vertex colors (+ lighting when SHADED). Without this, tris often draw black. */

@@ -41,3 +41,6 @@ __pycache__/
 # Editor / OS junk
 *.orig
 *.bak
+
+# Local captures
+Screenshot_*.png

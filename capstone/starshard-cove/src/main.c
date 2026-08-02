@@ -160,10 +160,10 @@ int main(void)
 
     /*
      * display_init: resolution, color depth, number of framebuffers.
-     * FILTERS_RESAMPLE_ANTIALIAS: slightly nicer edges on 3D (costs a little).
+     * FILTERS_RESAMPLE: bilinear VI scale without AA (AA can leave a 1px edge artifact).
      */
     display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE,
-                 FILTERS_RESAMPLE_ANTIALIAS);
+                 FILTERS_RESAMPLE);
 
     rdpq_init();   /* RDP command helpers (clear, text, combiners, …) */
     joypad_init(); /* controllers (Module 0 L03) */
@@ -537,10 +537,10 @@ int main(void)
         t3d_viewport_attach(&viewport);
 
         /* Clear color — optionally flash white-ish after a pickup. */
-        color_t clear = RGBA32(25, 55, 100, 0);
+        color_t clear = RGBA32(25, 55, 100, 0xFF);
         if (flash > 0.f) {
             uint8_t add = (uint8_t)(flash * 80.f);
-            clear = RGBA32(25 + add, 55 + add / 2, 100, 0);
+            clear = RGBA32(25 + add, 55 + add / 2, 100, 0xFF);
         }
         t3d_screen_clear_color(clear);
         t3d_screen_clear_depth(); /* NEVER skip this or you get ghost geometry */

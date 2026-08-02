@@ -44,7 +44,7 @@ int main(void)
 
     dfs_init(DFS_DEFAULT_LOCATION);
     display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE,
-                 FILTERS_RESAMPLE_ANTIALIAS);
+                 FILTERS_RESAMPLE);
     rdpq_init();
     joypad_init();
     rdpq_text_register_font(1, rdpq_font_load_builtin(FONT_BUILTIN_DEBUG_VAR));

@@ -25,9 +25,9 @@ you near the mesh.
 ### Course mesh scales (important)
 
 `island.t3dm` stores large integer verts (~±384). The ROM uses **scale ≈ 0.032** so
-the island is ~12 world units. `player_static` uses a small scale (~0.08) so the
-character matches. If you load these `.t3dm` files at scale `1,1,1`, the camera
-will look empty (clear color + text only).
+the island is ~12 world units. `player_static` uses **scale ≈ 0.04** (~3–4u tall).
+If you load these `.t3dm` files at scale `1,1,1`, the camera will look empty
+(clear color + text only).
 
 ## Key idea: camera-relative
 

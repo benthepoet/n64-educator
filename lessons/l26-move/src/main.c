@@ -40,8 +40,10 @@ int main(void)
     debug_init_usblog();
     asset_init_compression(2);
     dfs_init(DFS_DEFAULT_LOCATION);
+    /* FILTERS_RESAMPLE only — RESAMPLE_ANTIALIAS can leave a 1px flickering
+     * edge line at the top of the framebuffer (VI AA / divot). */
     display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE,
-                 FILTERS_RESAMPLE_ANTIALIAS);
+                 FILTERS_RESAMPLE);
     rdpq_init();
     joypad_init();
     rdpq_text_register_font(1, rdpq_font_load_builtin(FONT_BUILTIN_DEBUG_VAR));
@@ -146,9 +148,11 @@ int main(void)
         t3d_viewport_set_projection(&viewport, T3D_DEG_TO_RAD(60.f), 1.f, 200.f);
         t3d_viewport_look_at(&viewport, &eye, &target, &(fm_vec3_t){{ 0, 1, 0 }});
 
-        /* Model matrix: scale, rotate by yaw, translate to pos (Module 1 L07). */
+        /* Model matrix: scale, rotate by yaw, translate to pos (Module 1 L07).
+         * player_static t3dm is tall in integer units (~y 13..107); ~0.04 ≈ 3–4u
+         * on the ~12u island (0.08 felt oversized). */
         t3d_mat4fp_from_srt_euler(&playerMat[frame],
-            (float[3]){ 0.08f, 0.08f, 0.08f },
+            (float[3]){ 0.04f, 0.04f, 0.04f },
             (float[3]){ 0, yaw, 0 },
             (float[3]){ pos.v[0], pos.v[1], pos.v[2] });
 
@@ -156,7 +160,7 @@ int main(void)
         rdpq_attach(display_get(), display_get_zbuf());
         t3d_frame_start();
         t3d_viewport_attach(&viewport);
-        t3d_screen_clear_color(RGBA32(40, 70, 110, 0));
+        t3d_screen_clear_color(RGBA32(40, 70, 110, 0xFF));
         t3d_screen_clear_depth();
         t3d_light_set_ambient(amb);
         t3d_light_set_directional(0, dirC, &ldir);

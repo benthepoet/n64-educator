@@ -34,6 +34,20 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.1.7] — 2026-08-02
+
+### Fixed
+
+- **VI edge artifact:** use `FILTERS_RESAMPLE` (not `RESAMPLE_ANTIALIAS`) and
+  opaque clear (`alpha 0xFF`) in 3D lessons — avoids a 1px flickering green/cyan
+  line at the top of the framebuffer
+- **L26:** smaller `player_static` scale (`0.04`) so the blockout character fits
+  the island better
+- **L28:** `assertf` if island/player fail to load from DFS (DeepSeek) so a
+  missing asset fails loudly instead of a blank scene
+
+---
+
 ## [1.1.6] — 2026-08-01
 
 ### Changed
@@ -175,7 +189,8 @@ First public open-source release of the full curriculum.
 - Default git branch: **`master`**
 - Requires libdragon **preview** + Tiny3D (see pinned versions doc)
 
-[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.6...HEAD
+[Unreleased]: https://github.com/benthepoet/n64-educator/compare/v1.1.7...HEAD
+[1.1.7]: https://github.com/benthepoet/n64-educator/compare/v1.1.6...v1.1.7
 [1.1.6]: https://github.com/benthepoet/n64-educator/compare/v1.1.5...v1.1.6
 [1.1.5]: https://github.com/benthepoet/n64-educator/compare/v1.1.4...v1.1.5
 [1.1.4]: https://github.com/benthepoet/n64-educator/compare/v1.1.3...v1.1.4

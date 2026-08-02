@@ -40,7 +40,7 @@ int main(void)
     asset_init_compression(2);
     dfs_init(DFS_DEFAULT_LOCATION);
     display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE,
-                 FILTERS_RESAMPLE_ANTIALIAS);
+                 FILTERS_RESAMPLE);
     rdpq_init();
     joypad_init();
     rdpq_text_register_font(1, rdpq_font_load_builtin(FONT_BUILTIN_DEBUG_VAR));
@@ -54,6 +54,9 @@ int main(void)
 
     T3DModel *island = t3d_model_load("rom:/island.t3dm");
     T3DModel *player = t3d_model_load("rom:/player_anim.t3dm");
+    /* Fail loudly (like L27) if the DFS models are missing — otherwise the
+     * island/player silently drop out and you just get the clear color. */
+    assertf(island && player, "L28: failed to load island/player models from ROM (DFS)");
     T3DSkeleton skel = t3d_skeleton_create_buffered(player, FB_COUNT);
     T3DSkeleton skelBlend = t3d_skeleton_clone(&skel, false);
     T3DAnim animIdle = t3d_anim_create(player, "Snake_Idle");
@@ -145,7 +148,7 @@ int main(void)
         rdpq_attach(display_get(), display_get_zbuf());
         t3d_frame_start();
         t3d_viewport_attach(&viewport);
-        t3d_screen_clear_color(RGBA32(30, 60, 100, 0));
+        t3d_screen_clear_color(RGBA32(30, 60, 100, 0xFF));
         t3d_screen_clear_depth();
         t3d_light_set_ambient(amb);
         t3d_light_set_directional(0, dirC, &ldir);

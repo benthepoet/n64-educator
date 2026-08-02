@@ -78,7 +78,7 @@ int main(void)
         t3d_frame_start();
         t3d_viewport_attach(&viewport);
 
-        t3d_screen_clear_color(RGBA32(20, 24, 40, 0));
+        t3d_screen_clear_color(RGBA32(20, 24, 40, 0xFF));
         t3d_screen_clear_depth();
 
         /* Shade from vertex colors (+ lighting when SHADED). Without this, tris often draw black. */
