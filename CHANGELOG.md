@@ -34,6 +34,19 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.2.1] — 2026-08-02
+
+### Fixed
+
+- **Audio channel clash:** stereo `collect.wav` used mixer ch 0+1 while UI lived on
+  ch 1 and win reused ch 0 — after a clear, START → title could assert
+  `samplebuffer_get: window … not contiguous`. Map is now collect 0(+1), UI 2,
+  win 3, BGM 4.. (L32–L34, capstone). Stop win/collect before UI on win→title.
+- **Capstone EEPROM wait:** pump `mixer_try_play()` while `eeprom_is_busy()` so
+  the mixer is not starved during save flush
+
+---
+
 ## [1.2.0] — 2026-08-02
 
 ### Added

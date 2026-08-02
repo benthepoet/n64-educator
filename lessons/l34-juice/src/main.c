@@ -31,9 +31,15 @@
 #define FB_COUNT 3
 #define SHARD_N  3
 
-#define CH_SFX   0
-#define CH_UI    1
-#define CH_BGM   2
+/*
+ * Mixer channel map (collect.wav is stereo → uses CH_COLLECT and CH_COLLECT+1).
+ * Never put mono UI/win on the stereo pair; never start XM on top of SFX.
+ * music.xm uses 8 channels from CH_BGM.
+ */
+#define CH_COLLECT 0  /* stereo collect → also 1 */
+#define CH_UI      2
+#define CH_WIN     3
+#define CH_BGM     4  /* XM: 4..11 */
 
 typedef enum {
     ST_TITLE = 0,
@@ -194,13 +200,14 @@ int main(void)
                 xm64player_play(&music, CH_BGM);
             }
         } else if (state == ST_WIN && pressed.start) {
+            /* Stop lingering jingles before UI (avoids samplebuffer/Opus glitches). */
+            mixer_ch_stop(CH_WIN);
+            mixer_ch_stop(CH_COLLECT);
             if (sfx_ui) {
                 wav64_play(sfx_ui, CH_UI);
             }
             state = ST_TITLE;
-            if (music_ok) {
-                xm64player_stop(&music);
-            }
+            /* Music already stopped on win — leave it stopped on title. */
         }
 
         float blend = 0.f;
@@ -260,16 +267,17 @@ int main(void)
                         rumble_t = 0.18f;
                     }
                     if (sfx_collect) {
-                        wav64_play(sfx_collect, CH_SFX);
+                        wav64_play(sfx_collect, CH_COLLECT);
                     }
                     if (collected >= SHARD_N) {
                         state = ST_WIN;
                         winBanner = 1.f;
-                        if (sfx_win) {
-                            wav64_play(sfx_win, CH_SFX);
-                        }
                         if (music_ok) {
                             xm64player_stop(&music);
+                        }
+                        /* Own channel — do not reuse stereo collect pair. */
+                        if (sfx_win) {
+                            wav64_play(sfx_win, CH_WIN);
                         }
                     }
                 }

@@ -33,9 +33,11 @@
 #include <libdragon.h>
 #include <stdio.h>
 
-#define CH_SFX  0
-#define CH_UI   1
-#define CH_BGM  2
+/* collect is stereo (0+1); win/ui mono; XM (8 ch) from CH_BGM */
+#define CH_COLLECT 0
+#define CH_UI      2
+#define CH_WIN     3
+#define CH_BGM     4
 
 int main(void)
 {
@@ -83,7 +85,7 @@ int main(void)
 
         if (pressed.a && sfx_collect) {
             /* Play on channel 0. Starting again interrupts the previous SFX on 0. */
-            wav64_play(sfx_collect, CH_SFX);
+            wav64_play(sfx_collect, CH_COLLECT);
             plays++;
         }
         if (pressed.b && sfx_ui) {
@@ -100,7 +102,7 @@ int main(void)
             }
         }
         if (pressed.start && sfx_win) {
-            wav64_play(sfx_win, CH_SFX);
+            wav64_play(sfx_win, CH_WIN);
         }
 
         /* Simple 2D UI — no Tiny3D this lesson. */

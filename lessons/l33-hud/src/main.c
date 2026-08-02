@@ -31,9 +31,11 @@
 #define FB_COUNT 3
 #define SHARD_N  3
 
-#define CH_SFX   0
-#define CH_UI    1
-#define CH_BGM   2
+/* collect.wav is stereo (ch+1); keep UI/win/BGM off that pair. XM needs 8 ch. */
+#define CH_COLLECT 0
+#define CH_UI      2
+#define CH_WIN     3
+#define CH_BGM     4
 
 typedef enum {
     ST_TITLE = 0,
@@ -182,13 +184,12 @@ int main(void)
                 xm64player_play(&music, CH_BGM);
             }
         } else if (state == ST_WIN && pressed.start) {
+            mixer_ch_stop(CH_WIN);
+            mixer_ch_stop(CH_COLLECT);
             if (sfx_ui) {
                 wav64_play(sfx_ui, CH_UI);
             }
             state = ST_TITLE;
-            if (music_ok) {
-                xm64player_stop(&music);
-            }
         }
 
         float blend = 0.f;
@@ -243,16 +244,16 @@ int main(void)
                     collected++;
                     flash = 1.f;
                     if (sfx_collect) {
-                        wav64_play(sfx_collect, CH_SFX);
+                        wav64_play(sfx_collect, CH_COLLECT);
                     }
                     if (collected >= SHARD_N) {
                         state = ST_WIN;
                         winBanner = 1.f;
-                        if (sfx_win) {
-                            wav64_play(sfx_win, CH_SFX);
-                        }
                         if (music_ok) {
                             xm64player_stop(&music);
+                        }
+                        if (sfx_win) {
+                            wav64_play(sfx_win, CH_WIN);
                         }
                     }
                 }

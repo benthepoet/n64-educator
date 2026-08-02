@@ -41,6 +41,23 @@ xm64player_set_loop(&music, true);
 mixer_try_play();
 ```
 
+### Mixer channel map (important)
+
+Course assets ship a **stereo** `collect.wav`. Stereo SFX occupies **two** mixer
+channels (`ch` and `ch+1`). Put UI/win on later mono channels and start XM after them:
+
+```c
+CH_COLLECT = 0  /* stereo → also uses 1 */
+CH_UI      = 2
+CH_WIN     = 3
+CH_BGM     = 4  /* music.xm uses 8 channels → 4..11 */
+```
+
+Overlapping a mono voice onto the stereo pair (or restarting win on the collect
+channel while Opus is decoding) can assert:
+
+`samplebuffer_get: window … not contiguous`
+
 ::: warning Sample rate vs audio_init
 Our pipeline converts WAVs with **Opus** (`--wav-compress 3`), which produces
 **48 kHz** `wav64` files. If you call `audio_init(44100, …)`, playing SFX asserts:

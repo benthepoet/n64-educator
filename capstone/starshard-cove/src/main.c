@@ -55,11 +55,14 @@
 /**
  * Mixer channel numbers.
  * The mixer can play several sounds at once; each needs a channel index.
- * Music (XM) may use several channels starting at CH_BGM — leave room after it.
+ * Mixer map: collect.wav is stereo (uses CH_COLLECT and +1). UI/win are mono.
+ * music.xm uses 8 channels from CH_BGM. Overlapping SFX+stereo caused
+ * samplebuffer_get "window not contiguous" on win→title.
  */
-#define CH_SFX   0  /* one-shot collect / win */
-#define CH_UI    1  /* menu blips */
-#define CH_BGM   2  /* XM music starts here */
+#define CH_COLLECT 0  /* stereo → also channel 1 */
+#define CH_UI      2
+#define CH_WIN     3
+#define CH_BGM     4  /* XM: 4..11 */
 
 /** Walk speed in world units per second (island is roughly radius ~6). */
 #define MOVE_SPEED 7.8f
@@ -405,13 +408,13 @@ int main(void)
                 xm64player_play(&music, CH_BGM);
             }
         } else if (state == ST_WIN && pressed.start) {
+            mixer_ch_stop(CH_WIN);
+            mixer_ch_stop(CH_COLLECT);
             if (sfx_ui) {
                 wav64_play(sfx_ui, CH_UI);
             }
             state = ST_TITLE;
-            if (music_ok) {
-                xm64player_stop(&music);
-            }
+            /* BGM already stopped on win. */
         }
 
         /* ------------------------------------------------------------------ */
@@ -494,16 +497,16 @@ int main(void)
                         rumble_t = 0.18f;
                     }
                     if (sfx_collect) {
-                        wav64_play(sfx_collect, CH_SFX);
+                        wav64_play(sfx_collect, CH_COLLECT);
                     }
                     if (collected >= SHARD_N) {
                         state = ST_WIN;
                         winBanner = 1.f;
-                        if (sfx_win) {
-                            wav64_play(sfx_win, CH_SFX);
-                        }
                         if (music_ok) {
                             xm64player_stop(&music);
+                        }
+                        if (sfx_win) {
+                            wav64_play(sfx_win, CH_WIN);
                         }
                         /* Persist best clear time once per win (L38). */
                         if (save_ok && !win_saved) {
@@ -514,7 +517,9 @@ int main(void)
                             }
                             cove_save.magic = COVE_SAVE_MAGIC;
                             eepfs_write(COVE_SAVE_PATH, &cove_save, sizeof(cove_save));
+                            /* Keep mixer fed while EEPROM flushes (do not hard-spin). */
                             while (eeprom_is_busy()) {
+                                mixer_try_play();
                             }
                         }
                     }
