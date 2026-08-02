@@ -13,6 +13,7 @@ Juice = feedback that says “your input mattered” without new systems:
 | Bob/spin shards | `sin(time)` on Y + yaw |
 | Collect flash | lerp clear color white for a few frames |
 | SFX | `wav64_play` on collect |
+| Rumble | `joypad_set_rumble_active` pulse (~0.18 s) if supported |
 | Anim speed | walk clip rate follows stick |
 
 ## What you will see
@@ -51,4 +52,4 @@ The blocks below are **imported from the real repository files** at build time
 
 ## Next
 
-[L35 — Capstone assembly](./l35-capstone).
+[L38 — Save & high scores](./l38-save) · then [L39](./l39-perf) · [L35 Capstone](./l35-capstone).

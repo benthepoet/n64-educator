@@ -34,6 +34,24 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.2.0] — 2026-08-02
+
+### Added
+
+- **P1 roadmap implementation**
+  - **L37 — When it crashes:** `debugf`, `assertf`, deliberate crash; docs under M0
+  - **`docs/reference/debugging.md`** cheat sheet (rebuild hygiene, common failures)
+  - **L34 rumble:** short motor pulse on shard collect when supported
+  - **L38 — Save & high scores:** `eepromfs` + `N64_ROM_SAVETYPE=eeprom4k`
+  - **L39 — Measuring performance:** frame-ms HUD + stick-controlled CPU load
+  - **Capstone:** EEPROM best clear time + rumble on collect
+
+### Changed
+
+- Module 5 overview / nav / shipping docs for L37–L39; roadmap marks P1 shipped
+
+---
+
 ## [1.1.10] — 2026-08-02
 
 ### Added

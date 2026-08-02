@@ -39,6 +39,7 @@
 #include <t3d/t3dskeleton.h>
 #include <t3d/t3danim.h>
 #include <stdio.h>
+#include <string.h>
 #include "ng_game.h" /* deadzone, time, lerp helpers from Module 4 */
 
 /* -------------------------------------------------------------------------- */
@@ -207,6 +208,40 @@ int main(void)
     xm64player_set_vol(&music, 0.55f); /* keep music under SFX */
 
     /* ---------------------------------------------------------------------- */
+    /* SAVE — best clear time on EEPROM (Module 5 L38)                        */
+    /* ---------------------------------------------------------------------- */
+
+    typedef struct {
+        uint32_t magic;
+        float best_time; /* seconds; 1e9 = none yet */
+        uint32_t clears;
+    } CoveSave;
+
+#define COVE_SAVE_MAGIC 0x53534331u /* 'SSC1' */
+#define COVE_SAVE_PATH  "cove.dat"
+
+    static const eepfs_entry_t cove_fs[] = {
+        { .path = COVE_SAVE_PATH, .size = sizeof(CoveSave), .checksum = true, .backup = true },
+    };
+    CoveSave cove_save = { .magic = COVE_SAVE_MAGIC, .best_time = 1e9f, .clears = 0 };
+    bool save_ok = false;
+
+    if (eeprom_present() != EEPROM_NONE) {
+        if (eepfs_init(cove_fs, 1) == EEPFS_ESUCCESS) {
+            save_ok = true;
+            if (!eepfs_verify_signature()) {
+                eepfs_wipe();
+            }
+            CoveSave tmp;
+            memset(&tmp, 0, sizeof(tmp));
+            if (eepfs_read(COVE_SAVE_PATH, &tmp, sizeof(tmp)) == EEPFS_ESUCCESS &&
+                tmp.magic == COVE_SAVE_MAGIC) {
+                cove_save = tmp;
+            }
+        }
+    }
+
+    /* ---------------------------------------------------------------------- */
     /* 3D SCENE OBJECTS                                                       */
     /* ---------------------------------------------------------------------- */
 
@@ -280,6 +315,8 @@ int main(void)
     float playTime = 0.f;     /* only counts in ST_PLAY — used for ranks */
     float flash = 0.f;        /* 1→0 after collect; brightens clear color (juice) */
     float winBanner = 0.f;    /* reserved juice timer on win */
+    float rumble_t = 0.f;     /* rumble motor pulse timer (L34 juice) */
+    bool win_saved = false;   /* wrote EEPROM once for this clear */
     char line[80];            /* snprintf buffer for HUD */
 
     /* Lighting: soft ambient fill + one directional “sun”. */
@@ -306,6 +343,9 @@ int main(void)
          */
         float dt = ng_time_s() - last;
         last = ng_time_s();
+        if (dt < 0.f) {
+            dt = 0.f;
+        }
         if (dt > 0.1f) {
             dt = 0.1f;
         }
@@ -318,6 +358,13 @@ int main(void)
         if (winBanner > 0.f) {
             winBanner -= dt * 0.5f;
         }
+        if (rumble_t > 0.f) {
+            rumble_t -= dt;
+            if (rumble_t <= 0.f) {
+                rumble_t = 0.f;
+                joypad_set_rumble_active(JOYPAD_PORT_1, false);
+            }
+        }
 
         /* ------------------------------------------------------------------ */
         /* STATE MACHINE — menus and mode changes only                        */
@@ -325,6 +372,7 @@ int main(void)
 
         if (state == ST_TITLE && pressed.start) {
             /* Begin a new run */
+            win_saved = false;
             if (sfx_ui) {
                 wav64_play(sfx_ui, CH_UI);
             }
@@ -441,6 +489,10 @@ int main(void)
                     shards[i].alive = false;
                     collected++;
                     flash = 1.f; /* juice: flash the screen */
+                    if (joypad_get_rumble_supported(JOYPAD_PORT_1)) {
+                        joypad_set_rumble_active(JOYPAD_PORT_1, true);
+                        rumble_t = 0.18f;
+                    }
                     if (sfx_collect) {
                         wav64_play(sfx_collect, CH_SFX);
                     }
@@ -452,6 +504,18 @@ int main(void)
                         }
                         if (music_ok) {
                             xm64player_stop(&music);
+                        }
+                        /* Persist best clear time once per win (L38). */
+                        if (save_ok && !win_saved) {
+                            win_saved = true;
+                            cove_save.clears++;
+                            if (playTime < cove_save.best_time) {
+                                cove_save.best_time = playTime;
+                            }
+                            cove_save.magic = COVE_SAVE_MAGIC;
+                            eepfs_write(COVE_SAVE_PATH, &cove_save, sizeof(cove_save));
+                            while (eeprom_is_busy()) {
+                            }
                         }
                     }
                 }
@@ -596,6 +660,12 @@ int main(void)
             rdpq_text_print(NULL, 1, 70, 70, "STARSHARD COVE");
             rdpq_text_print(NULL, 1, 55, 100, "Collect 8 starshards");
             rdpq_text_print(NULL, 1, 75, 130, "Press START");
+            if (cove_save.best_time < 1e8f) {
+                snprintf(line, sizeof(line), "Best clear: %.1fs", cove_save.best_time);
+                rdpq_text_print(NULL, 1, 70, 160, line);
+            } else {
+                rdpq_text_print(NULL, 1, 70, 160, "Best clear: --");
+            }
             rdpq_text_print(NULL, 1, 40, 200, "Stick move  C-L/R cam  START pause");
         } else if (state == ST_PAUSE) {
             rdpq_text_print(NULL, 1, 120, 90, "PAUSED");
@@ -615,7 +685,11 @@ int main(void)
             }
             snprintf(line, sizeof(line), "Rank: %s", rank);
             rdpq_text_print(NULL, 1, 100, 120, line);
-            rdpq_text_print(NULL, 1, 55, 160, "START — title");
+            if (cove_save.best_time < 1e8f) {
+                snprintf(line, sizeof(line), "Best: %.1fs", cove_save.best_time);
+                rdpq_text_print(NULL, 1, 90, 140, line);
+            }
+            rdpq_text_print(NULL, 1, 55, 168, "START — title");
             rdpq_text_print(NULL, 1, 30, 200, "N64 Educator capstone");
         } else {
             /* ST_PLAY — keep HUD minimal so the 3D scene stays readable. */

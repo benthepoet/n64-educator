@@ -20,6 +20,7 @@ One small ROM that proves you can build, run, read input, and draw a ROM-packed 
 | Joypad poll + pressed edges | L03 |
 | DFS sprite | L04 |
 | Mental model of the machine | L05 |
+| Debugging loop (any time) | [L37](./l37-debug) · [reference](/reference/debugging) |
 
 ## Build & run
 

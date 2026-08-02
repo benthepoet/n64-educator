@@ -1,11 +1,11 @@
 # Top-level helpers for n64-educator
 # Requires N64_INST for ROM targets (see docs/guide/setup.md).
 
-.PHONY: help lessons l01 l02 l03 l04 l06 l07 l08 l09 l10 l11 l12 l13 l14 l15 l16 l26 l27 l28 l29 l30 l31 l32 l33 l34 m3lab m4toy cove checkpoint docs docs-dev clean-lessons assets
+.PHONY: help lessons l01 l02 l03 l04 l06 l07 l08 l09 l10 l11 l12 l13 l14 l15 l16 l26 l27 l28 l29 l30 l31 l32 l33 l34 l37 l38 l39 m3lab m4toy cove checkpoint docs docs-dev clean-lessons assets
 
 help:
 	@echo "Targets:"
-	@echo "  make l01..l16 l26..l34 m3lab m4toy cove checkpoint assets"
+	@echo "  make l01..l16 l26..l34 l37 l38 l39 m3lab m4toy cove checkpoint assets"
 	@echo "  make lessons | docs | docs-dev | clean-lessons"
 
 l01:
@@ -88,6 +88,15 @@ l33:
 
 l34:
 	$(MAKE) -C lessons/l34-juice
+
+l37:
+	$(MAKE) -C lessons/l37-debug
+
+l38:
+	$(MAKE) -C lessons/l38-save
+
+l39:
+	$(MAKE) -C lessons/l39-perf
 
 cove:
 	$(MAKE) -C capstone/starshard-cove

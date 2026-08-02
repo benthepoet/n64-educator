@@ -27,7 +27,7 @@ collectathon: **Starshard Cove**.
 
 ```text
 docs/                 # VitePress curriculum site
-lessons/              # Buildable lesson ROMs (l01 … l34, labs, checkpoints)
+lessons/              # Buildable lesson ROMs (l01 … l34, l37–l39, labs, checkpoints)
 common/               # Shared Makefiles + ng_math / ng_game helpers
 capstone/             # Starshard Cove (final game)
 assets-src/           # Masters + ATTRIBUTION.md

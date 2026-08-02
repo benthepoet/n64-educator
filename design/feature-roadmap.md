@@ -1,7 +1,8 @@
 # N64 Educator — Feature Roadmap (Proposal)
 
-Status: **proposal** · Audience: course author(s) · Source: curriculum gap review
-against v1.1.9 (all L01–L36 lessons build and produce working ROMs).
+Status: **proposal** (P1 implemented in v1.2.0: L37 debug, L34 rumble, L38 save,
+L39 perf, capstone save+rumble) · Audience: course author(s) · Source: curriculum
+gap review against v1.1.9+.
 
 This document lists candidate topics not currently covered by the curriculum,
 ranked by learner impact. Each item suggests placement, scope, and rationale.
@@ -19,6 +20,9 @@ Nothing here is committed — treat it as a menu, not a mandate.
 ---
 
 ## Priority 1 — Strong candidates
+
+> **Shipped in v1.2.0:** items 1–4 below as L37 / L34 rumble / L38 / L39 + capstone
+> wiring. Keep this section for history; new work starts at Priority 2.
 
 ### 1. Save data / persistence
 

@@ -15,15 +15,20 @@ Add **audio**, a clear **HUD**, **juice**, and ship the full **Starshard Cove** 
 |--------|--------|-----|
 | [L32 — Audio](./l32-audio) | mixer, WAV SFX, XM music | `l32_audio` |
 | [L33 — HUD](./l33-hud) | 2D text over 3D, timer | `l33_hud` |
-| [L34 — Juice](./l34-juice) | flash, bob, feedback | `l34_juice` |
+| [L34 — Juice](./l34-juice) | flash, bob, rumble, feedback | `l34_juice` |
+| [L38 — Save](./l38-save) | EEPROM high score (`eepromfs`) | `l38_save` |
+| [L39 — Performance](./l39-perf) | Frame-time HUD | `l39_perf` |
 | [L35 — Capstone](./l35-capstone) | Assemble full game | `starshard_cove` |
 | [L36 — Shipping](./l36-shipping) | Checklist, next steps | docs |
+
+Debugging foundations (any time): [L37 — When it crashes](/guide/m0/l37-debug) · [debugging reference](/reference/debugging).
 
 ## Build
 
 ```bash
 source scripts/env.sh
-make l32 l33 l34
+make l32 l33 l34 l38 l39
+make -C lessons/l37-debug   # debugging (Module 0 page, any time)
 make -C capstone/starshard-cove
 ```
 

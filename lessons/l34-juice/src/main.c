@@ -123,6 +123,7 @@ int main(void)
     float t = 0.f, playTime = 0.f;
     float flash = 0.f;
     float winBanner = 0.f;
+    float rumble_t = 0.f; /* seconds remaining of motor pulse */
     char line[80];
 
     uint8_t amb[4] = { 80, 95, 110, 255 };
@@ -149,6 +150,14 @@ int main(void)
         }
         if (winBanner > 0.f) {
             winBanner -= dt * 0.5f;
+        }
+        /* Rumble pulse: start on collect, stop when timer expires. */
+        if (rumble_t > 0.f) {
+            rumble_t -= dt;
+            if (rumble_t <= 0.f) {
+                rumble_t = 0.f;
+                joypad_set_rumble_active(JOYPAD_PORT_1, false);
+            }
         }
 
         /* State transitions */
@@ -245,6 +254,11 @@ int main(void)
                     shards[i].alive = false;
                     collected++;
                     flash = 1.f;
+                    /* Juice: short rumble if the accessory supports it. */
+                    if (joypad_get_rumble_supported(JOYPAD_PORT_1)) {
+                        joypad_set_rumble_active(JOYPAD_PORT_1, true);
+                        rumble_t = 0.18f;
+                    }
                     if (sfx_collect) {
                         wav64_play(sfx_collect, CH_SFX);
                     }

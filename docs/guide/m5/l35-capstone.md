@@ -34,6 +34,9 @@ make -C capstone/starshard-cove
 Implementation notes match [conventions](/reference/conventions): 48 kHz audio,
 box wall, snake `-yaw`, push/pop, `FILTERS_RESAMPLE`.
 
+Also ships P1 polish from later lessons: **rumble** on collect (L34), **best clear
+time** on EEPROM (L38), title/win HUD for best.
+
 ## Ranks
 
 | Rank | Time |

@@ -21,14 +21,16 @@ make -C capstone/starshard-cove
 - Title / play / pause / win  
 - Music + SFX (`audio_init(48000)` for Opus)  
 - HUD count + timer + ranks  
+- Rumble pulse on collect (if supported)  
+- Best clear time on EEPROM (`eeprom4k` / `eepromfs`)  
 - `FILTERS_RESAMPLE` + opaque clear (no VI AA edge flicker)
 
 ## Stretch (your sequel)
 
 - Jump + anim  
-- EEPROM high score  
 - Second area  
 - Night lighting  
+- Controller Pak / multi-slot saves  
 - Your own player rig replacing the reference character  
 
 ## Controls
