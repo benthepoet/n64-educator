@@ -6,9 +6,10 @@
  * -------------
  * Detect pickups without a physics engine:
  *   if distance_xz(player, shard) < radius → collect
- * Soft wall: clamp radial distance so you stay on the island.
+ * Soft wall: box clamp on XZ (not radial — radial skates the rim).
  * Kill plane pattern: if y too low, reset (shown as a comment / simple bound).
  *
+ * Camera/move match L28: free camYaw, move from lagged eye, snake -yaw.
  * This is intentionally crude. Real games layer better ground probes later.
  *
  * CONTROLS: Stick move, C orbit, walk into crystals
@@ -45,6 +46,7 @@ int main(void)
     debug_init_usblog();
     asset_init_compression(2);
     dfs_init(DFS_DEFAULT_LOCATION);
+    /* FILTERS_RESAMPLE only — avoid RESAMPLE_ANTIALIAS (1px top-edge flicker). */
     display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE,
                  FILTERS_RESAMPLE);
     rdpq_init();

@@ -384,11 +384,12 @@ int main(void)
             }
 
             /*
-             * Stick → camera-relative move (Module 4 L26)
-             * -------------------------------------------
+             * Stick → camera-relative move (Module 4 L28+)
+             * --------------------------------------------
              * Stick X/Y are roughly -80..80. Normalize to about -1..1.
-             * Then rotate by (camera yaw (camYaw)) so “stick up” means
-             * “into the screen from the camera’s point of view.”
+             * Rotate by the *lagged* camera (eye→player on XZ) so stick-up
+             * matches what is on screen. camYaw is only for C-orbit / fallback.
+             * Never use player yaw as the move basis (strafe feedback-spins).
              */
             float sx = (float)ng_dz(in.stick_x) / 80.f;
             float sy = (float)ng_dz(in.stick_y) / 80.f;
@@ -399,7 +400,6 @@ int main(void)
                 speed = 1.f;
             }
 
-/* Move relative to lagged camera (eye→player), not player yaw. */
             float edx = eye.v[0] - pos.v[0];
             float edz = eye.v[2] - pos.v[2];
             float elen = sqrtf(edx * edx + edz * edz);
@@ -418,14 +418,15 @@ int main(void)
             if (speed > 0.15f) {
                 pos.v[0] += mx * MOVE_SPEED * dt;
                 pos.v[2] += mz * MOVE_SPEED * dt;
-                /* Face movement direction (smoothly). */
+                /* Face movement direction (model only — does not drive camYaw). */
                 yaw = ng_lerp_angle(yaw, atan2f(mx, mz), 0.22f);
 
                 blend = speed; /* drive walk animation amount */
             }
 
             /*
-             * Soft wall: keep player inside a cylinder roughly matching the island.
+             * Soft wall: axis-aligned box, not a radial cylinder.
+             * Radial clamp skates you around the rim and feels like camera spin.
              * Not real mesh collision — good enough for this mini-game.
              */
             pos.v[0] = ng_clamp(pos.v[0], -5.5f, 5.5f);
@@ -479,16 +480,16 @@ int main(void)
         /* CAMERA — third-person follow with lag (Module 4 L28)               */
         /* ------------------------------------------------------------------ */
 
-        float back = camYaw; /* camera sits on camYaw, not player yaw */
+        float back = camYaw; /* desired orbit sits on camYaw, not player yaw */
         fm_vec3_t eyeWant = {{
-            pos.v[0] + fm_sinf(back) * 12.f, /* behind player */
+            pos.v[0] + fm_sinf(back) * 12.f, /* along camYaw (free orbit) */
             pos.v[1] + 6.5f,                 /* above */
             pos.v[2] + fm_cosf(back) * 12.f,
         }};
         fm_vec3_t lookWant = {{ pos.v[0], pos.v[1] + 1.35f, pos.v[2] }}; /* look at torso */
 
         if (state == ST_TITLE) {
-            /* Pretty orbit around the empty island on the title screen. */
+            /* Pretty orbit around the island on the title screen. */
             eyeWant = (fm_vec3_t){{
                 fm_sinf(t * 0.35f) * 15.f,
                 10.f,
@@ -505,7 +506,7 @@ int main(void)
         }
 
         /*
-         * Projection = lens (FOV 58°, near 1, far 100).
+         * Projection = lens (FOV 58°, near 1, far 200).
          * look_at builds the view matrix from eye, target, and world-up.
          */
         t3d_viewport_set_projection(&viewport, T3D_DEG_TO_RAD(58.f), 1.f, 200.f);

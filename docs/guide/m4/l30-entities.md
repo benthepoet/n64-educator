@@ -30,9 +30,10 @@ Player, shards, and a platform all come from `SPAWNS[]`.
 Draw still uses **one matrix push/pop per entity** (and `t3d_skeleton_use` for the
 player). Scales match L26/L28 (island ~0.032, snake ~0.02, starshard ~0.02).
 
-Camera: move relative to the **lagged eye** (what you see), not player yaw. Soft
-bounds are a **box**, not a radial cylinder (radial walls make you skate the rim
-and look like the camera is spinning).
+Camera: move relative to the **lagged eye** (what you see), not player yaw.
+`camYaw` is C-orbit only. Soft bounds are a **box**, not a radial cylinder
+(radial walls skate the rim and look like the camera is spinning). Snake model
+uses **`-yaw`**. `FILTERS_RESAMPLE` + opaque clear.
 
 
 ## Full lesson source

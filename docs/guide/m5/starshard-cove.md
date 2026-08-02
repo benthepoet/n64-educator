@@ -14,13 +14,14 @@ make -C capstone/starshard-cove
 
 ## Scope (v1 shipped in course)
 
-- One outdoor island mesh  
-- Skinned player with idle/walk  
-- Follow camera + orbit  
-- 8 collectibles, soft island wall  
+- One outdoor island mesh (scale ~0.032) + snake (~0.02)  
+- Skinned player with idle/walk (`t3d_skeleton_use`)  
+- Follow camera + free `camYaw` orbit; move from lagged eye  
+- 8 collectibles, **box** soft wall (not radial)  
 - Title / play / pause / win  
-- Music + SFX  
+- Music + SFX (`audio_init(48000)` for Opus)  
 - HUD count + timer + ranks  
+- `FILTERS_RESAMPLE` + opaque clear (no VI AA edge flicker)
 
 ## Stretch (your sequel)
 

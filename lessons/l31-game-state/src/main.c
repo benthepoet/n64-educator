@@ -5,7 +5,9 @@
  * --------
  * TITLE → PLAY ⇄ PAUSE → WIN
  * Start toggles pause in play; collect 3 shards to win; Start on title begins.
+ * Title always draws island + idle player + shards (showcase orbit).
  *
+ * Camera/move in PLAY match L28–L30 (camYaw, eye basis, box wall, -yaw).
  * docs/guide/m4/l31-game-state.md
  */
 
@@ -58,6 +60,7 @@ int main(void)
     debug_init_usblog();
     asset_init_compression(2);
     dfs_init(DFS_DEFAULT_LOCATION);
+    /* FILTERS_RESAMPLE only — avoid RESAMPLE_ANTIALIAS (1px top-edge flicker). */
     display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE,
                  FILTERS_RESAMPLE);
     rdpq_init();

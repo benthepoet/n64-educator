@@ -1,17 +1,19 @@
 # L28 — Third-person follow camera
 
 ::: tip Goal
-Place the camera **behind the player** with lag, and move relative to that view.
+Drive a **follow camera** with its **own yaw** and positional lag, and move relative to **what you see** — not player facing.
 :::
 
 ## In plain English
 
 ```text
 camYaw     = camera horizontal angle (C-left/right only — free orbit)
-move       = rotate stick by camYaw into world XZ
-player yaw = face the move direction (does NOT drive the camera basis)
-desired_eye = player + offset(camYaw) * distance + up * height
+eyeWant    = player + offset(camYaw) * distance + up * height
 eye/look   = lerp toward desired (positional lag)
+
+move basis = direction of (eye → player) on XZ   // lagged view, not player yaw
+             fallback: camYaw if eye sits on the player
+player yaw = face the move direction (model only — never drives the camera)
 ```
 
 ### Why not couple camera to player yaw?
@@ -22,8 +24,12 @@ the view **spins**. Same bug if you soft-lerp `camYaw` toward `playerYaw` while
 running: those angles differ by ~π (camera sits behind, player faces the look
 direction), so the lerp races around the circle.
 
-**Rule:** move relative to **camYaw**; turn the **model** only; change **camYaw**
-with C-buttons (or a dedicated free-look). Position lag still feels like a follow cam.
+**Rule:**
+
+1. **camYaw** only from C-buttons (desired orbit).  
+2. **Move** relative to the **lagged eye** (what is on screen), not player yaw.  
+3. **Player yaw** turns the model only.  
+4. **Never** soft-follow `camYaw` → player yaw.
 
 ## What you will see
 
@@ -36,7 +42,10 @@ not flip the camera.
 
 Uses **skinned** `player_anim` (scale ~**0.02** on the course island) with
 `t3d_skeleton_use` before `t3d_model_draw_skinned`, and **push/pop** for island
-and player matrices.
+and player matrices. Snake model yaw is **`-yaw`** (mesh faces −Z). Soft wall is
+a **box** clamp.
+
+Display: **`FILTERS_RESAMPLE`** + opaque clear (no VI AA edge flicker).
 
 
 ## Full lesson source

@@ -4,20 +4,20 @@
  *
  * LEARNING GOAL
  * -------------
- * Camera has its own yaw (C-orbit + soft follow when running forward), with
- * lag so motion feels soft — not glued 1:1 to the character.
+ * Camera has its own yaw (C-orbit only — never soft-follows player facing), with
+ * positional lag so motion feels soft — not glued 1:1 to the character.
  *
  * RECIPE
  * ------
- *   desired_eye  = player - forward*dist + up*height
+ *   camYaw       = free orbit (C-left/right only)
+ *   desired_eye  = player + offset(camYaw)*dist + up*height
  *   desired_look = player + head_offset
- *   eye  = lerp(eye, desired_eye, lag)
- *   look = lerp(look, desired_look, lag)
+ *   eye/look     = lerp toward desired (positional lag)
  *   t3d_viewport_look_at(eye, look, up)
  *
- * Move is camera-relative using a *camera yaw* (C-left/right), not player yaw.
- * If move used player yaw and the camera sat behind player yaw, pure strafe would
- * spin the camera forever (yaw updates → camera basis updates → feedback loop).
+ * Move is relative to the *lagged* camera (eye→player on XZ), not player yaw.
+ * If move used player yaw and the camera sat on player yaw, pure strafe would
+ * spin forever. Soft-lerping camYaw toward playerYaw also spins (~π apart).
  *
  * CONTROLS: Stick move, C-left/right orbit camera
  * DOCS: docs/guide/m4/l28-follow-cam.md
@@ -41,6 +41,7 @@ int main(void)
     debug_init_usblog();
     asset_init_compression(2);
     dfs_init(DFS_DEFAULT_LOCATION);
+    /* FILTERS_RESAMPLE only — avoid RESAMPLE_ANTIALIAS (1px top-edge flicker). */
     display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE,
                  FILTERS_RESAMPLE);
     rdpq_init();

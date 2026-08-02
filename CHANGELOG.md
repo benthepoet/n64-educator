@@ -34,6 +34,23 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.1.9] — 2026-08-02
+
+### Changed
+
+- **Docs ↔ code audit:** conventions, Module 4–5 guides, and source file headers
+  now match the fixed ROMs end-to-end:
+  - free `camYaw` + move from **lagged eye→player** (not player yaw; no soft-follow)
+  - **box** soft-walls (not radial)
+  - snake model **`-yaw`**
+  - **`FILTERS_RESAMPLE`** + opaque clear (no VI AA edge flicker)
+  - **`audio_init(48000)`** for Opus `wav64`
+  - course scales (island ~0.032 / snake ~0.02; L27 sample map still different)
+  - L31 title always draws the scene; toy-cove doc path fix in source
+- Capstone comments corrected (box wall, eye-relative move, far plane 200)
+
+---
+
 ## [1.1.8] — 2026-08-02
 
 ### Fixed

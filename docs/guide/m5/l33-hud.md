@@ -26,11 +26,17 @@ make -C lessons/l33-hud
 
 Toy Cove with audio + always-visible **Shards n/3** and **Time** in play mode.
 
+Same rules as L32/L34: **`audio_init(48000)`**, island/snake/shard **scales**,
+**push/pop**, **`t3d_skeleton_use`**, eye-relative move + `camYaw`, box wall,
+**`FILTERS_RESAMPLE`**.
+
 ## HUD tips
 
 - Put critical info top corners (safe from camera chaos)  
 - Pause should freeze gameplay and show big centered text  
 - Don’t overdraw — N64 text is precious for readability  
+- Draw HUD **after** 3D (`rdpq_set_mode_standard` then text)  
+
 
 
 ## Full lesson source

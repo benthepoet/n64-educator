@@ -15,14 +15,17 @@ make -C lessons/m4-toy-cove
 | Control | Action |
 |---------|--------|
 | START | Title→Play, Play⇄Pause, Win→Title |
-| Stick | Move (camera-relative) |
-| C-left/right | Orbit camera |
+| Stick | Move (relative to lagged camera) |
+| C-left/right | Orbit `camYaw` only |
+
+Same patterns as L28–L31: box soft-wall, snake `-yaw`, scales, push/pop,
+`FILTERS_RESAMPLE`.
 
 ## Skills checklist
 
-- [ ] Camera-relative move  
+- [ ] Camera-relative move (eye basis, not player yaw)  
 - [ ] Idle/walk blend  
-- [ ] Follow camera with lag  
+- [ ] Follow camera with lag + free `camYaw`  
 - [ ] Sphere collect  
 - [ ] Entity/spawn mindset  
 - [ ] State machine  

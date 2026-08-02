@@ -11,8 +11,11 @@ We are not writing a physics engine.
 | Check | Method |
 |-------|--------|
 | Collect shard | `distance_xz(player, shard) < radius` |
-| Stay on island | Clamp radial distance |
-| Fall | If `y < kill`, reset to spawn |
+| Stay on island | **Box** clamp on XZ (e.g. ±5.5) — not a radial cylinder |
+| Fall | If `y < kill`, reset to spawn (pattern; bound is enough here) |
+
+Radial “soft walls” skate you around the rim and feel like camera spin — use a
+box like L28/L30.
 
 ## What you will see
 
@@ -21,7 +24,8 @@ make -C lessons/l29-collision
 ```
 
 Three bobbing starshards; walk into them to collect. Same island/snake/shard
-**scales** and **push/pop** draw pattern as L28.
+**scales**, **push/pop** draw pattern, **eye-relative move**, **`camYaw`**, and
+snake **`-yaw`** as L28.
 
 
 ## Full lesson source

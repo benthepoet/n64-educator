@@ -23,11 +23,12 @@ make -C lessons/m3-asset-lab
 ## Scales in this lab
 
 The lab applies a **per-prop scale** so huge integer `t3dm` verts fit the camera
-(e.g. island ~0.032, `player_anim` ~0.02, starshard ~0.025). That matches Module 4
-gameplay ROMs. Viewing at scale `1` often looks empty.
+(e.g. island ~0.032, `player_anim` ~0.02, starshard ~0.025 for the lab orbit view).
+Module 4–5 gameplay ROMs use starshard ~**0.02** on the island — same order of
+magnitude. Viewing at scale `1` often looks empty.
 
 Animated prop: call **`t3d_skeleton_use`** before `t3d_model_draw_skinned`, and
-**`matrix_push` / `pop`** around the draw.
+**`matrix_push` / `pop`** around the draw. Lab display: **`FILTERS_RESAMPLE`**.
 
 ## Self-check
 

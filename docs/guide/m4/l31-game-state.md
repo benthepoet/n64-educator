@@ -13,7 +13,8 @@ Structure the game as **states** so title, play, pause, and win don’t fight ea
              └──► WIN ──START──► TITLE
 ```
 
-Only **PLAY** runs movement and pickup logic. **PAUSE** freezes `dt` for anims. **TITLE** orbits the island.
+Only **PLAY** runs movement and pickup logic. **PAUSE** freezes `dt` for anims.
+**TITLE** slowly orbits the island for a showcase (still draws the full scene).
 
 ## What you will see
 
@@ -21,7 +22,12 @@ Only **PLAY** runs movement and pickup logic. **PAUSE** freezes `dt` for anims. 
 make -C lessons/l31-game-state
 ```
 
-Same render stack as L30 (scaled island/player/shards, skeleton_use, matrix push/pop).
+Title shows island + idle snake + shards + “Press START” (not a blank blue field).
+Same render stack as L30: scales, `skeleton_use`, matrix push/pop, eye-relative
+move in play, box soft-wall. Models load with `assertf` so a missing DFS asset
+fails loudly.
+
+Display: **`FILTERS_RESAMPLE`** + opaque clear.
 
 
 ## Full lesson source

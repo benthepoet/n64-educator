@@ -43,4 +43,19 @@ assets/*.xm  → audioconv64 → filesystem/*.xm64
 
 Handled by `common/lesson.mk`. Call `mixer_try_play()` every frame.
 
+**Must match Opus sample rate:** `audio_init(48000, …)` — see [L32](./l32-audio).
+
+## Patterns that must match the ROMs
+
+Same as Module 4 gameplay, plus:
+
+| Topic | Course convention |
+|-------|-------------------|
+| Audio | `audio_init(48000)` + `wav64_init_compression(3)` for Opus |
+| VI / clear | `FILTERS_RESAMPLE` + opaque clear |
+| Camera / move | `camYaw` free orbit; move from lagged eye→player; box wall |
+| Snake facing | `-yaw` in the model matrix |
+
+[Scale & conventions](/reference/conventions) · [Module 4 patterns](/guide/m4/overview)
+
 Start: [L32 — Audio](./l32-audio).

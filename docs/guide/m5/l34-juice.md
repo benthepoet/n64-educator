@@ -25,7 +25,9 @@ Screen brightens briefly when you grab a shard. Full loop: title → play (islan
 snake + 3 shards) → audio/HUD → win.
 
 Same draw/audio rules as earlier modules: **`audio_init(48000)`**, island/snake/
-shard **scales**, **push/pop** matrices, **`t3d_skeleton_use`** before skinned draw.
+shard **scales**, **push/pop** matrices, **`t3d_skeleton_use`** before skinned
+draw, **`FILTERS_RESAMPLE`** + opaque clear, free **`camYaw`** with move from
+the lagged eye (not player yaw), box soft-wall, snake **`-yaw`**.
 
 ## Performance note
 

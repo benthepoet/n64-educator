@@ -6,7 +6,7 @@
  * TITLE → PLAY ⇄ PAUSE → WIN
  * Start toggles pause in play; collect 3 shards to win; Start on title begins.
  *
- * docs/guide/m4/l31-game-state.md
+ * docs/guide/m4/toy-cove.md
  */
 
 /**
@@ -58,6 +58,7 @@ int main(void)
     debug_init_usblog();
     asset_init_compression(2);
     dfs_init(DFS_DEFAULT_LOCATION);
+    /* FILTERS_RESAMPLE only — avoid RESAMPLE_ANTIALIAS (1px top-edge flicker). */
     display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE,
                  FILTERS_RESAMPLE);
     rdpq_init();
@@ -147,7 +148,7 @@ int main(void)
                 sy /= speed;
                 speed = 1.f;
             }
-/* Move relative to lagged camera (eye→player), not player yaw. */
+            /* Move relative to lagged camera (eye→player), not player yaw. */
             float edx = eye.v[0] - pos.v[0];
             float edz = eye.v[2] - pos.v[2];
             float elen = sqrtf(edx * edx + edz * edz);

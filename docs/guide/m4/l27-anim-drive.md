@@ -29,6 +29,10 @@ Sandy **sample map** (Tiny3D `08_animation` lineage) + Quaternius **snake** char
 shipped as `player_anim`. Character **idles** when still and **blends to walk** as
 you push the stick. Stick-up moves **into the scene** (camera-relative, same as L26).
 
+**Scales differ from L26/L28 island lessons:** this ROM uses the sample map (~0.3)
+and snake (~0.125) from Tiny3D example 08 — not the course island 0.032 / 0.02.
+Call **`t3d_skeleton_use`** before skinned draw; model yaw uses **`-yaw`**.
+
 Clear color is warm sand (not the old blue-only bug) so a fresh ROM is obvious.
 
 ## Pitfalls

@@ -19,8 +19,8 @@ Stick left/right/up/down should feel like “strafe / forward” based on where 
 make -C lessons/l26-move
 ```
 
-Blockout **player_static** on the painted **island**. Stick moves; soft wall keeps
-you near the mesh.
+Blockout **player_static** on the painted **island**. Stick moves; a **box** soft
+wall (`ng_clamp` on X/Z) keeps you near the mesh.
 
 ### Course mesh scales (important)
 
@@ -29,11 +29,14 @@ the island is ~12 world units. `player_static` uses **scale ≈ 0.04** (~3–4u 
 If you load these `.t3dm` files at scale `1,1,1`, the camera will look empty
 (clear color + text only).
 
+Display uses **`FILTERS_RESAMPLE`** (not AA) and an opaque clear so the top of
+the frame does not flicker.
+
 ## Key idea: camera-relative
 
-The follow camera sits on an offset `(sin θ, cos θ)` looking at the player, so
-**look** on XZ is `(-sin θ, -cos θ)`. Stick-up should move **into the screen**
-(along look), not toward the camera:
+This lesson uses a **fixed** `camYaw` for the camera offset. Stick is rotated by
+that yaw into world XZ. Stick-up should move **into the screen** (along look),
+not toward the camera. L28 upgrades this to a free `camYaw` + lagged eye basis:
 
 ```text
 // sx = stick right, sy = stick up (after deadzone)

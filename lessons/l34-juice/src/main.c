@@ -67,6 +67,8 @@ int main(void)
     debug_init_usblog();
     asset_init_compression(2);
     dfs_init(DFS_DEFAULT_LOCATION);
+    /* FILTERS_RESAMPLE only — RESAMPLE_ANTIALIAS can leave a 1px flickering
+     * green/cyan line at the top of the framebuffer on some VI paths. */
     display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE,
                  FILTERS_RESAMPLE);
     rdpq_init();
@@ -74,7 +76,7 @@ int main(void)
     rdpq_text_register_font(1, rdpq_font_load_builtin(FONT_BUILTIN_DEBUG_VAR));
     t3d_init((T3DInitParams){});
 
-    /* Audio */
+    /* Audio — Opus wav64 is 48 kHz; audio_init must be >= that rate. */
     audio_init(48000, 4);
     mixer_init(16);
     wav64_init_compression(3);
@@ -134,6 +136,9 @@ int main(void)
         joypad_inputs_t in = joypad_get_inputs(JOYPAD_PORT_1);
         float dt = ng_time_s() - last;
         last = ng_time_s();
+        if (dt < 0.f) {
+            dt = 0.f;
+        }
         if (dt > 0.1f) {
             dt = 0.1f;
         }
@@ -207,7 +212,7 @@ int main(void)
                 sy /= speed;
                 speed = 1.f;
             }
-/* Move relative to lagged camera (eye→player), not player yaw. */
+            /* Move relative to lagged camera (eye→player), not player yaw. */
             float edx = eye.v[0] - pos.v[0];
             float edz = eye.v[2] - pos.v[2];
             float elen = sqrtf(edx * edx + edz * edz);

@@ -10,6 +10,7 @@
  *   Entity ents[MAX]; filled from SPAWNS at boot
  *   each frame: update all ents, draw all alive ents
  *
+ * Camera/move: free camYaw, move from lagged eye, box soft-wall, snake -yaw.
  * Later you can fill SPAWNS from Blender empties or a JSON/CSV export.
  *
  * Entity types here: PLAYER, SHARD, PLATFORM
@@ -68,6 +69,7 @@ int main(void)
     debug_init_usblog();
     asset_init_compression(2);
     dfs_init(DFS_DEFAULT_LOCATION);
+    /* FILTERS_RESAMPLE only — avoid RESAMPLE_ANTIALIAS (1px top-edge flicker). */
     display_init(RESOLUTION_320x240, DEPTH_16_BPP, FB_COUNT, GAMMA_NONE,
                  FILTERS_RESAMPLE);
     rdpq_init();

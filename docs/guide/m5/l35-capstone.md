@@ -28,8 +28,11 @@ make -C capstone/starshard-cove
 | Input | Action |
 |-------|--------|
 | START | Title→Play, pause, win→title |
-| Stick | Move |
-| C-left/right | Orbit camera |
+| Stick | Move (relative to lagged camera) |
+| C-left/right | Orbit `camYaw` only |
+
+Implementation notes match [conventions](/reference/conventions): 48 kHz audio,
+box wall, snake `-yaw`, push/pop, `FILTERS_RESAMPLE`.
 
 ## Ranks
 
