@@ -34,6 +34,15 @@ leave user-visible work only under `[Unreleased]` on `master`.
 
 ---
 
+## [1.2.2] — 2026-08-02
+
+### Fixed
+
+- Ignore local `*.eeprom` save sidecars (Ares/libdragon); remove accidental
+  commit of emulator save files from v1.2.1
+
+---
+
 ## [1.2.1] — 2026-08-02
 
 ### Fixed

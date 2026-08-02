@@ -5,6 +5,7 @@
 **/*.elf
 **/*.map
 **/*.stripped
+**/*.eeprom
 **/filesystem/
 **/*_f3d.glb
 
